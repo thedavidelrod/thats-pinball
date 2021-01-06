@@ -88,7 +88,6 @@ var Bodies = _matterJs2.default.Bodies;
 var Constraint = _matterJs2.default.Constraint;
 
 //round things like bumpers and the ball
-var ball = Bodies.circle(200, 0, 15, 80); //ball
 
 var bumpers = exports.bumpers = function bumpers() {
   var bumper1 = Bodies.circle(255, 125, 30, { isStatic: true });
@@ -214,13 +213,15 @@ var _matterJs2 = _interopRequireDefault(_matterJs);
 
 var _playfield = __webpack_require__(0);
 
+var _ball = __webpack_require__(5);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import playField from './app/assets/javascripts/playfield'
 var Engine = _matterJs2.default.Engine,
     Render = _matterJs2.default.Render,
     World = _matterJs2.default.World,
-    Bodies = _matterJs2.default.Bodies;
+    Bodies = _matterJs2.default.Bodies; // import playField from './app/assets/javascripts/playfield'
+
 
 var engine = void 0;
 var world = void 0;
@@ -241,7 +242,7 @@ function setup() {
   });
 
   world = engine.world;
-  var playfield = [(0, _playfield.bumpers)(), (0, _playfield.walls)(), (0, _playfield.flippers)()];
+  var playfield = [(0, _playfield.bumpers)(), (0, _playfield.walls)(), (0, _playfield.flippers)(), (0, _ball.ball)()];
 
   World.add(engine.world, playfield.reduce(function (prev, curr) {
     return prev.concat(curr);
@@ -10650,6 +10651,31 @@ var Vector = _dereq_('../geometry/Vector');
 });
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ball = undefined;
+
+var _matterJs = __webpack_require__(4);
+
+var _matterJs2 = _interopRequireDefault(_matterJs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Bodies = _matterJs2.default.Bodies;
+
+var ball = exports.ball = function ball() {
+  var playBall = Bodies.circle(200, 0, 15, 80); //ball
+  return playBall;
+};
 
 /***/ })
 /******/ ]);

@@ -4,7 +4,6 @@ const Bodies = Matter.Bodies;
 
 
 //round things like bumpers and the ball
-const ball = Bodies.circle(200, 0, 15, 80); //ball
 
 export const bumpers = function bumpers() {
   let bumper1 = Bodies.circle(255, 125, 30, { isStatic: true }); 

@@ -7,6 +7,7 @@ import {
   flippers
   
 } from "./app/assets/javascripts/playfield";
+import {ball} from "./app/assets/javascripts/ball"
 
 
 var Engine = Matter.Engine,
@@ -36,7 +37,7 @@ function setup() {
   });
 
   world = engine.world;
-  const playfield = [bumpers(), walls(), flippers()];
+  const playfield = [bumpers(), walls(), flippers(), ball()];
  
   World.add(engine.world, playfield.reduce((prev, curr) => {
     return prev.concat(curr)
