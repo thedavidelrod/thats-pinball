@@ -1,7 +1,7 @@
 {
   "name": "thats-pinball",
   "version": "1.0.0",
-  "description": "",
+  "description": "That's pinball baby",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

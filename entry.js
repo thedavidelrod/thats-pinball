@@ -1,19 +1,19 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // module aliases
+
   var Engine = Matter.Engine,
     Render = Matter.Render,
     World = Matter.World,
     Bodies = Matter.Bodies;
-
+document.addEventListener("DOMContentLoaded", function () {
+  // module aliases
   // create an engine
   var engine = Engine.create();
 
   //round things like bumpers and the ball
   var ball = Bodies.circle(200, 0, 15, 80); //ball
-  let bumper1 = Bodies.circle(255, 125, 30, { isStatic: true }); //bumper 2
-  let bumper2 = Bodies.circle(180, 200, 30, { isStatic: true });
-  let bumper3 = Bodies.circle(325, 200, 30, { isStatic: true });
-  let bumper4 = Bodies.circle(255, 270, 30, { isStatic: true });
+  let bumper1 = Bodies.circle(255, 125, 30, { isStatic: true }); //top left
+  let bumper2 = Bodies.circle(180, 200, 30, { isStatic: true }); //top right
+  let bumper3 = Bodies.circle(325, 200, 30, { isStatic: true }); //bottom left
+  let bumper4 = Bodies.circle(255, 270, 30, { isStatic: true }); //bottom right
 
   //walls and lanes
 
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     isStatic: true,
   });
 
-  let leftDiag = Bodies.rectangle(100, 0, 350, 200, { 
+  let leftDiag = Bodies.rectangle(100, 0, 350, 200, {
     angle: (5 * Math.PI) / 6,
     chamfer: { radius: 10 },
     isStatic: true,
@@ -104,6 +104,17 @@ document.addEventListener("DOMContentLoaded", function () {
     isStatic: true,
   });
 
+  let rightHinge = Bodies.circle(325, 533, 5, {
+    isStatic: true,
+    render: { fillStyle: "orange" },
+  });
+  
+   let leftHinge = Bodies.circle(185, 533, 5, {
+     isStatic: true,
+     render: { fillStyle: "green" },
+   });
+
+   
   // add all of the bodies to the world
   World.add(engine.world, [
     ball,
@@ -126,7 +137,9 @@ document.addEventListener("DOMContentLoaded", function () {
     leftThorn,
     rightThorn,
     leftDiag,
-    rightDiag
+    rightDiag,
+    rightHinge,
+    leftHinge
   ]);
 
   // create a renderer
