@@ -70,6 +70,223 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.flippers = exports.walls = exports.bumpers = undefined;
+
+var _matterJs = __webpack_require__(4);
+
+var _matterJs2 = _interopRequireDefault(_matterJs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Bodies = _matterJs2.default.Bodies;
+var Constraint = _matterJs2.default.Constraint;
+
+//round things like bumpers and the ball
+var ball = Bodies.circle(200, 0, 15, 80); //ball
+
+var bumpers = exports.bumpers = function bumpers() {
+  var bumper1 = Bodies.circle(255, 125, 30, { isStatic: true });
+  var bumper2 = Bodies.circle(180, 200, 30, { isStatic: true });
+  var bumper3 = Bodies.circle(325, 200, 30, { isStatic: true });
+  var bumper4 = Bodies.circle(255, 270, 30, { isStatic: true });
+  return [bumper1, bumper2, bumper3, bumper4];
+};
+
+//walls and lanes
+var walls = exports.walls = function walls() {
+  var leftWall = Bodies.rectangle(0, 325, 650, 20, {
+    angle: Math.PI / 2,
+    isStatic: true
+  });
+
+  var rightWall = Bodies.rectangle(550, 325, 650, 20, {
+    angle: Math.PI / 2,
+    isStatic: true
+  });
+  var ceiling = Bodies.rectangle(275, 0, 550, 20, { isStatic: true });
+  var plungeLane = Bodies.rectangle(490, 455, 400, 20, {
+    angle: Math.PI / 2,
+    chamfer: { radius: 10 },
+    isStatic: true
+  });
+
+  var baseLeft = Bodies.rectangle(90, 560, 220, 20, {
+    angle: Math.PI / 6,
+    chamfer: { radius: 10 },
+    isStatic: true
+  });
+
+  var baseRight = Bodies.rectangle(400, 560, 220, 20, {
+    angle: 5 * Math.PI / 6,
+    chamfer: { radius: 10 },
+    isStatic: true
+  });
+
+  var leftDiag = Bodies.rectangle(100, 0, 350, 200, {
+    angle: 5 * Math.PI / 6,
+    chamfer: { radius: 10 },
+    isStatic: true
+  });
+
+  var rightDiag = Bodies.rectangle(420, 0, 400, 200, {
+    angle: Math.PI / 6,
+    chamfer: { radius: 10 },
+    isStatic: true
+  });
+
+  var leftFlipperWallSlant = Bodies.rectangle(110, 490, 110, 20, {
+    angle: Math.PI / 6,
+    chamfer: { radius: 10 },
+    isStatic: true
+  });
+  var leftFlipperWallVert = Bodies.rectangle(63, 415, 120, 20, {
+    angle: Math.PI / 2,
+    chamfer: { radius: 10 },
+    isStatic: true
+  });
+
+  var leftThorn = Bodies.trapezoid(10, 280, 50, 50, 0.5, {
+    isStatic: true,
+    angle: Math.PI / 2,
+    chamfer: { radius: 10 }
+  });
+
+  var rightFlipperWallSlant = Bodies.rectangle(395, 490, 110, 20, {
+    angle: 5 * Math.PI / 6,
+    chamfer: { radius: 10 },
+    isStatic: true
+  });
+  var rightFlipperWallVert = Bodies.rectangle(435, 415, 120, 20, {
+    angle: Math.PI / 2,
+    chamfer: { radius: 10 },
+    isStatic: true
+  });
+
+  var rightThorn = Bodies.trapezoid(475, 280, 50, 50, 0.5, {
+    isStatic: true,
+    angle: 3 * Math.PI / 2,
+    chamfer: { radius: 10 }
+  });
+  return [rightThorn, rightFlipperWallVert, rightFlipperWallSlant, leftThorn, leftFlipperWallVert, leftFlipperWallSlant, rightDiag, leftDiag, baseRight, baseLeft, ceiling, plungeLane, rightWall, leftWall];
+};
+
+//flippers
+var flippers = exports.flippers = function flippers() {
+  var leftFlipper = Bodies.trapezoid(205, 545, 20, 70, 0.25, {
+    angle: 2 * Math.PI / 3,
+    chamfer: { radius: 10 },
+    isStatic: true
+  });
+  var rightFlipper = Bodies.trapezoid(305, 545, 20, 70, 0.25, {
+    angle: 4 * Math.PI / 3,
+    chamfer: { radius: 10 },
+    isStatic: true
+  });
+  var rightHinge = Bodies.circle(325, 533, 5, {
+    isStatic: true,
+    render: { fillStyle: "orange" }
+  });
+
+  var leftHinge = Bodies.circle(185, 533, 5, {
+    isStatic: true,
+    render: { fillStyle: "green" }
+  });
+
+  return [leftFlipper, rightFlipper, leftHinge, rightHinge];
+};
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _matterJs = __webpack_require__(4);
+
+var _matterJs2 = _interopRequireDefault(_matterJs);
+
+var _playfield = __webpack_require__(0);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import playField from './app/assets/javascripts/playfield'
+var Engine = _matterJs2.default.Engine,
+    Render = _matterJs2.default.Render,
+    World = _matterJs2.default.World,
+    Bodies = _matterJs2.default.Bodies;
+
+var engine = void 0;
+var world = void 0;
+
+function setup() {
+  engine = Engine.create();
+
+  var render = Render.create({
+    canvas: document.getElementById("playfield"),
+
+    element: document.body,
+    engine: engine,
+    options: {
+      width: 550,
+      height: 650,
+      wireframes: false
+    }
+  });
+
+  world = engine.world;
+  var playfield = [(0, _playfield.bumpers)(), (0, _playfield.walls)(), (0, _playfield.flippers)()];
+
+  World.add(engine.world, playfield.reduce(function (prev, curr) {
+    return prev.concat(curr);
+  }));
+
+  Engine.run(engine);
+  Render.run(render);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  setup();
+});
+
+/***/ }),
+/* 2 */,
+/* 3 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
 /* WEBPACK VAR INJECTION */(function(global) {var require;var require;/**
 * matter-js 0.14.2 by @liabru 2018-06-11
 * http://brm.io/matter-js/
@@ -10432,47 +10649,7 @@ var Vector = _dereq_('../geometry/Vector');
 },{"../body/Composite":2,"../core/Common":14,"../core/Events":16,"../geometry/Bounds":26,"../geometry/Vector":28}]},{},[30])(30)
 });
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _MatterJs = __webpack_require__(0);
-
-var _MatterJs2 = _interopRequireDefault(_MatterJs);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ })
 /******/ ]);

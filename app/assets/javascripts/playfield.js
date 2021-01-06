@@ -1,13 +1,13 @@
-import Matter from "Matter-js";
-
+ import Matter from "matter-js";
 const Bodies = Matter.Bodies;
-// const Constraint = Matter.Constraint;
+ const Constraint = Matter.Constraint;
+
 
 //round things like bumpers and the ball
-var ball = Bodies.circle(200, 0, 15, 80); //ball
+const ball = Bodies.circle(200, 0, 15, 80); //ball
 
 export const bumpers = function bumpers() {
-  let bumper1 = Bodies.circle(255, 125, 30, { isStatic: true }); //bumper 2
+  let bumper1 = Bodies.circle(255, 125, 30, { isStatic: true }); 
   let bumper2 = Bodies.circle(180, 200, 30, { isStatic: true });
   let bumper3 = Bodies.circle(325, 200, 30, { isStatic: true });
   let bumper4 = Bodies.circle(255, 270, 30, { isStatic: true });
@@ -106,7 +106,17 @@ let rightFlipper = Bodies.trapezoid(305, 545, 20, 70, 0.25, {
   chamfer: { radius: 10 },
   isStatic: true,
 })
-return [leftFlipper, rightFlipper]
+let rightHinge = Bodies.circle(325, 533, 5, {
+    isStatic: true,
+    render: { fillStyle: "orange" },
+  });
+
+   let leftHinge = Bodies.circle(185, 533, 5, {
+     isStatic: true,
+     render: { fillStyle: "green" },
+   });
+
+return [leftFlipper, rightFlipper, leftHinge, rightHinge]
 };
 
 
