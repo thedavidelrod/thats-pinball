@@ -156,7 +156,7 @@ var walls = exports.walls = function walls() {
     chamfer: { radius: 10 }
   });
 
-  var rightFlipperWallSlant = Bodies.rectangle(395, 490, 110, 20, {
+  var rightFlipperWallSlant = Bodies.rectangle(385, 495, 120, 20, {
     angle: 5 * Math.PI / 6,
     chamfer: { radius: 10 },
     isStatic: true
@@ -216,14 +216,15 @@ var flippers = exports.flippers = function flippers() {
     render: { visable: false }
   });
 
-  var leftBlock = Bodies.rectangle(200, 550, 30, 30, {
-    isStatic: false,
-    render: { visible: false }
+  var leftBlock = Bodies.rectangle(200, 550, 30, 20, {
+
+    isStatic: false
+    // render: { visible: false },
   });
 
-  var rightBlock = Bodies.rectangle(290, 550, 30, 30, {
-    isStatic: false,
-    render: { visible: false }
+  var rightBlock = Bodies.rectangle(290, 550, 30, 20, {
+    isStatic: false
+    //  render: { visible: false },
   });
 
   var leftWeight = Constraint.create({
@@ -246,23 +247,23 @@ var flippers = exports.flippers = function flippers() {
 
   var leftBuffer = Bodies.circle(190, 605, 50, {
     label: "buffer",
-    isStatic: true,
-    render: { visible: false }
+    isStatic: true
+    //  render: { visible: false },
   });
   var leftTopBuffer = Bodies.circle(190, 450, 50, {
     label: "buffer",
-    isStatic: true,
-    render: { visible: false }
+    isStatic: true
+    //  render: { visible: false },
   });
   var rightBuffer = Bodies.circle(300, 605, 50, {
     label: "buffer",
-    isStatic: true,
-    render: { visible: false }
+    isStatic: true
+    //  render: { visible: false },
   });
   var rightTopBuffer = Bodies.circle(300, 450, 50, {
     label: "buffer",
-    isStatic: true,
-    render: { visible: false }
+    isStatic: true
+    // render: { visible: false },
   });
 
   return [leftFlipper, rightFlipper, leftHinge, rightHinge, leftConstraint, rightConstraint, leftBlock, rightBlock, leftWeight, rightWeight, leftBuffer, leftTopBuffer, rightBuffer, rightTopBuffer];
@@ -326,7 +327,7 @@ var rightFlipper = void 0;
 var leftFlipped = false;
 var rightFlipped = false;
 var bufferGroup = _matterJs2.default.Body.nextGroup(false);
-var paddleGroup = _matterJs2.default.Body.nextGroup(false);
+var flipperGroup = _matterJs2.default.Body.nextGroup(false);
 
 function setup() {
   engine = Engine.create();
@@ -344,6 +345,8 @@ function setup() {
   });
 
   world = engine.world;
+  world.gravity.y = 0.95;
+
   var playfield = [(0, _playfield.bumpers)(), (0, _playfield.walls)(), (0, _playfield.flippers)(), (0, _ball.ball)(), (0, _playfield.slingShot)()];
 
   World.add(engine.world, playfield.reduce(function (prev, curr) {
@@ -368,6 +371,7 @@ function setup() {
       var buffer = _step.value;
 
       buffer.collisionFilter = { group: bufferGroup };
+      // buffer.collisionFilter = {group: flipperGroup}
     }
   } catch (err) {
     _didIteratorError = true;

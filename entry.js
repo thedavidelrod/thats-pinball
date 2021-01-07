@@ -21,7 +21,7 @@ let rightFlipper;
 let leftFlipped = false;
 let rightFlipped = false;
 const bufferGroup = Matter.Body.nextGroup(false);
-const paddleGroup = Matter.Body.nextGroup(false);
+const flipperGroup = Matter.Body.nextGroup(false);
 
 
 
@@ -44,6 +44,8 @@ function setup() {
   });
 
   world = engine.world;
+    world.gravity.y = 0.95;
+
   const playfield = [bumpers(), walls(), flippers(), ball(), slingShot()];
 
   World.add(
@@ -62,6 +64,7 @@ function setup() {
 let buffers = engine.world.bodies.filter((body) => body.label === "buffer");
 for (let buffer of buffers) {
   buffer.collisionFilter = { group: bufferGroup };
+  // buffer.collisionFilter = {group: flipperGroup}
 }
   leftFlipper.collisionFilter = {
     group: bufferGroup,

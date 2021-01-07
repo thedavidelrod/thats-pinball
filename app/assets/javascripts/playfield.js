@@ -71,7 +71,7 @@ export const walls = function walls() {
     chamfer: { radius: 10 },
   });
 
-  let rightFlipperWallSlant = Bodies.rectangle(395, 490, 110, 20, {
+  let rightFlipperWallSlant = Bodies.rectangle(385, 495, 120, 20, {
     angle: (5 * Math.PI) / 6,
     chamfer: { radius: 10 },
     isStatic: true,
@@ -90,9 +90,9 @@ export const walls = function walls() {
   return [
     rightThorn,
     rightFlipperWallVert,
-    rightFlipperWallSlant,
+   rightFlipperWallSlant,
     leftThorn,
-    leftFlipperWallVert,
+     leftFlipperWallVert,
     leftFlipperWallSlant,
     rightDiag,
     leftDiag,
@@ -135,7 +135,7 @@ export const flippers = function flippers() {
     pointA: { x: -19.6, y: -11 },
     stiffness: 0,
     length: 0,
-    render: { visable: false },
+      render: { visable: false },
   });
   let rightConstraint = Constraint.create({
     bodyA: rightFlipper,
@@ -143,17 +143,18 @@ export const flippers = function flippers() {
     pointA: { x: 19.6, y: -11 },
     stiffness: 0,
     length: 0,
-    render: { visable: false },
+      render: { visable: false },
   });
 
-  let leftBlock = Bodies.rectangle(200, 550, 30, 30, {
+  let leftBlock = Bodies.rectangle(200, 550, 30, 20, {
+    
     isStatic: false,
-    render: { visible: false },
+    // render: { visible: false },
   });
 
-  let rightBlock = Bodies.rectangle(290, 550, 30, 30, {
+  let rightBlock = Bodies.rectangle(290, 550, 30, 20, {
     isStatic: false,
-    render: { visible: false },
+    //  render: { visible: false },
   });
 
   let leftWeight = Constraint.create({
@@ -177,22 +178,22 @@ export const flippers = function flippers() {
    let leftBuffer = Bodies.circle(190, 605, 50, {
      label: "buffer",
      isStatic: true,
-     render: { visible: false },
+    //  render: { visible: false },
    });
    let leftTopBuffer = Bodies.circle(190, 450, 50, {
      label: "buffer",
      isStatic: true,
-     render: { visible: false },
+    //  render: { visible: false },
    });
    let rightBuffer = Bodies.circle(300, 605, 50, {
      label: "buffer",
      isStatic: true,
-     render: { visible: false },
+    //  render: { visible: false },
    });
    let rightTopBuffer = Bodies.circle(300, 450, 50, {
      label: "buffer",
      isStatic: true,
-      render: { visible: false },
+      // render: { visible: false },
    });
 
 
