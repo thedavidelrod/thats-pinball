@@ -218,8 +218,8 @@ var flippers = exports.flippers = function flippers() {
 
   var leftBlock = Bodies.rectangle(200, 550, 30, 20, {
 
-    isStatic: false
-    // render: { visible: false },
+    isStatic: false,
+    render: { visible: false }
   });
 
   var rightBlock = Bodies.rectangle(290, 550, 30, 20, {
@@ -247,23 +247,23 @@ var flippers = exports.flippers = function flippers() {
 
   var leftBuffer = Bodies.circle(190, 605, 50, {
     label: "buffer",
-    isStatic: true
-    //  render: { visible: false },
+    isStatic: true,
+    render: { visible: false }
   });
   var leftTopBuffer = Bodies.circle(190, 450, 50, {
     label: "buffer",
-    isStatic: true
-    //  render: { visible: false },
+    isStatic: true,
+    render: { visible: false }
   });
   var rightBuffer = Bodies.circle(300, 605, 50, {
     label: "buffer",
-    isStatic: true
-    //  render: { visible: false },
+    isStatic: true,
+    render: { visible: false }
   });
   var rightTopBuffer = Bodies.circle(300, 450, 50, {
     label: "buffer",
-    isStatic: true
-    // render: { visible: false },
+    isStatic: true,
+    render: { visible: false }
   });
 
   return [leftFlipper, rightFlipper, leftHinge, rightHinge, leftConstraint, rightConstraint, leftBlock, rightBlock, leftWeight, rightWeight, leftBuffer, leftTopBuffer, rightBuffer, rightTopBuffer];
