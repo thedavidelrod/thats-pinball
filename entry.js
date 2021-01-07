@@ -1,5 +1,4 @@
-// import playField from './app/assets/javascripts/playfield'
- import Matter from "matter-js";
+import Matter from "matter-js";
 
 import {
   bumpers,
@@ -7,19 +6,27 @@ import {
   flippers,
   slingShot,
 } from "./app/assets/javascripts/playfield";
-import {ball} from "./app/assets/javascripts/ball"
-
+import { ball } from "./app/assets/javascripts/ball";
 
 var Engine = Matter.Engine,
   Render = Matter.Render,
   World = Matter.World,
-  Bodies = Matter.Bodies;
-
-
-
+  Bodies = Matter.Bodies,
+  Constraint = Matter.Constraint;
 
 let engine;
 let world;
+let leftFlipper;
+let rightFlipper;
+let leftFlipped = false;
+let rightFlipped = false;
+const bufferGroup = Matter.Body.nextGroup(false);
+const paddleGroup = Matter.Body.nextGroup(false);
+
+
+
+
+
 
 function setup() {
   engine = Engine.create();
@@ -33,20 +40,85 @@ function setup() {
       width: 550,
       height: 650,
       wireframes: false,
-    }
+    },
   });
 
   world = engine.world;
   const playfield = [bumpers(), walls(), flippers(), ball(), slingShot()];
- 
-  World.add(engine.world, playfield.reduce((prev, curr) => {
-    return prev.concat(curr)
-  }))
 
-Engine.run(engine);
-Render.run(render)
+  World.add(
+    engine.world,
+    playfield.reduce((prev, curr) => {
+      return prev.concat(curr);
+    })
+  );
+
+  leftFlipper = engine.world.bodies.filter(
+    (body) => body.label === "leftFlipper"
+  )[0];
+  rightFlipper = engine.world.bodies.filter(
+    (body) => body.label === "rightFlipper"
+  )[0];
+let buffers = engine.world.bodies.filter((body) => body.label === "buffer");
+for (let buffer of buffers) {
+  buffer.collisionFilter = { group: bufferGroup };
+}
+  leftFlipper.collisionFilter = {
+    group: bufferGroup,
+    category: 4294967295,
+    mask: 2,
+  };
+  rightFlipper.collisionFilter = {
+    group: bufferGroup,
+    category: 4294967295,
+    mask: 2,
+  };  
+
+
+  Engine.run(engine);
+  Render.run(render);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  setup()
-})
+function fireFlipper(e) {
+  let keyCode = e.keyCode;
+  if (
+    keyCode === 37 &&
+    leftFlipper.isSleeping === false &&
+    leftFlipped === false
+  ) {
+    leftFlipped = true;
+    Matter.Body.setAngularVelocity(leftFlipper, -1);
+  } else if (
+    keyCode === 39 &&
+    rightFlipper.isSleeping === false &&
+    rightFlipped === false
+  ) {
+    rightFlipped = true;
+    Matter.Body.setAngularVelocity(rightFlipper, 1);
+  }
+}
+
+function flipperCommand() {
+  document.addEventListener("keydown", function keyDown(e) {
+    fireFlipper(e);
+  });
+  document.addEventListener("keyup", function keyUp(e) {
+    releaseFlipper(e);
+  });
+}
+
+function releaseFlipper(e) {
+  let keyCode = e.keyCode;
+  if (keyCode === 37) {
+    leftFlipped = false;
+    leftFlipper.isSleeping = false;
+  } else if (keyCode === 39) {
+    rightFlipped = false;
+    rightFlipper.isSleeping = false;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  setup();
+  flipperCommand();
+});

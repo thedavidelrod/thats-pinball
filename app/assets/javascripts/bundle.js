@@ -86,6 +86,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Bodies = _matterJs2.default.Bodies;
 var Constraint = _matterJs2.default.Constraint;
+var bufferGroup = _matterJs2.default.Body.nextGroup(true);
 
 //bumpers
 var bumpers = exports.bumpers = function bumpers() {
@@ -176,27 +177,95 @@ var walls = exports.walls = function walls() {
 
 //flippers
 var flippers = exports.flippers = function flippers() {
-  var leftFlipper = Bodies.trapezoid(205, 545, 20, 70, 0.25, {
+  var leftFlipper = Bodies.trapezoid(190, 540, 25, 80, 0.25, {
+    label: "leftFlipper",
     angle: 2 * Math.PI / 3,
     chamfer: { radius: 10 },
-    isStatic: true
+    isSleeping: false
   });
-  var rightFlipper = Bodies.trapezoid(305, 545, 20, 70, 0.25, {
+  var rightFlipper = Bodies.trapezoid(300, 540, 25, 80, 0.25, {
+    label: "rightFlipper",
     angle: 4 * Math.PI / 3,
     chamfer: { radius: 10 },
-    isStatic: true
+    isSleeping: false
   });
-  var rightHinge = Bodies.circle(325, 533, 5, {
+  var rightHinge = Bodies.circle(318, 529, 5, {
     isStatic: true,
     render: { fillStyle: "orange" }
   });
 
-  var leftHinge = Bodies.circle(185, 533, 5, {
+  var leftHinge = Bodies.circle(172, 529, 5, {
     isStatic: true,
     render: { fillStyle: "green" }
   });
 
-  return [leftFlipper, rightFlipper, leftHinge, rightHinge];
+  var leftConstraint = Constraint.create({
+    bodyA: leftFlipper,
+    bodyB: leftHinge,
+    pointA: { x: -19.6, y: -11 },
+    stiffness: 0,
+    length: 0,
+    render: { visable: false }
+  });
+  var rightConstraint = Constraint.create({
+    bodyA: rightFlipper,
+    bodyB: rightHinge,
+    pointA: { x: 19.6, y: -11 },
+    stiffness: 0,
+    length: 0,
+    render: { visable: false }
+  });
+
+  var leftBlock = Bodies.rectangle(200, 550, 30, 30, {
+    isStatic: false,
+    render: { visible: false }
+  });
+
+  var rightBlock = Bodies.rectangle(290, 550, 30, 30, {
+    isStatic: false,
+    render: { visible: false }
+  });
+
+  var leftWeight = Constraint.create({
+    bodyA: leftFlipper,
+    bodyB: leftBlock,
+    pointA: { x: 13, y: 11 },
+    stiffness: 1,
+    length: 1,
+    render: { visible: false }
+  });
+
+  var rightWeight = Constraint.create({
+    bodyA: rightFlipper,
+    bodyB: rightBlock,
+    pointA: { x: -13, y: 11 },
+    stiffness: 1,
+    length: 1,
+    render: { visible: false }
+  });
+
+  var leftBuffer = Bodies.circle(190, 605, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false }
+  });
+  var leftTopBuffer = Bodies.circle(190, 450, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false }
+  });
+  var rightBuffer = Bodies.circle(300, 605, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false }
+  });
+  var rightTopBuffer = Bodies.circle(300, 450, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false }
+  });
+
+  return [leftFlipper, rightFlipper, leftHinge, rightHinge, leftConstraint, rightConstraint, leftBlock, rightBlock, leftWeight, rightWeight, leftBuffer, leftTopBuffer, rightBuffer, rightTopBuffer];
 };
 
 //slings
@@ -247,11 +316,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Engine = _matterJs2.default.Engine,
     Render = _matterJs2.default.Render,
     World = _matterJs2.default.World,
-    Bodies = _matterJs2.default.Bodies; // import playField from './app/assets/javascripts/playfield'
-
+    Bodies = _matterJs2.default.Bodies,
+    Constraint = _matterJs2.default.Constraint;
 
 var engine = void 0;
 var world = void 0;
+var leftFlipper = void 0;
+var rightFlipper = void 0;
+var leftFlipped = false;
+var rightFlipped = false;
+var bufferGroup = _matterJs2.default.Body.nextGroup(false);
+var paddleGroup = _matterJs2.default.Body.nextGroup(false);
 
 function setup() {
   engine = Engine.create();
@@ -275,12 +350,89 @@ function setup() {
     return prev.concat(curr);
   }));
 
+  leftFlipper = engine.world.bodies.filter(function (body) {
+    return body.label === "leftFlipper";
+  })[0];
+  rightFlipper = engine.world.bodies.filter(function (body) {
+    return body.label === "rightFlipper";
+  })[0];
+  var buffers = engine.world.bodies.filter(function (body) {
+    return body.label === "buffer";
+  });
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = buffers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var buffer = _step.value;
+
+      buffer.collisionFilter = { group: bufferGroup };
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  leftFlipper.collisionFilter = {
+    group: bufferGroup,
+    category: 4294967295,
+    mask: 2
+  };
+  rightFlipper.collisionFilter = {
+    group: bufferGroup,
+    category: 4294967295,
+    mask: 2
+  };
+
   Engine.run(engine);
   Render.run(render);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function fireFlipper(e) {
+  var keyCode = e.keyCode;
+  if (keyCode === 37 && leftFlipper.isSleeping === false && leftFlipped === false) {
+    leftFlipped = true;
+    _matterJs2.default.Body.setAngularVelocity(leftFlipper, -1);
+  } else if (keyCode === 39 && rightFlipper.isSleeping === false && rightFlipped === false) {
+    rightFlipped = true;
+    _matterJs2.default.Body.setAngularVelocity(rightFlipper, 1);
+  }
+}
+
+function flipperCommand() {
+  document.addEventListener("keydown", function keyDown(e) {
+    fireFlipper(e);
+  });
+  document.addEventListener("keyup", function keyUp(e) {
+    releaseFlipper(e);
+  });
+}
+
+function releaseFlipper(e) {
+  var keyCode = e.keyCode;
+  if (keyCode === 37) {
+    leftFlipped = false;
+    leftFlipper.isSleeping = false;
+  } else if (keyCode === 39) {
+    rightFlipped = false;
+    rightFlipper.isSleeping = false;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
   setup();
+  flipperCommand();
 });
 
 /***/ }),
