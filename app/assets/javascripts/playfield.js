@@ -3,8 +3,7 @@ const Bodies = Matter.Bodies;
  const Constraint = Matter.Constraint;
 
 
-//round things like bumpers and the ball
-
+//bumpers
 export const bumpers = function bumpers() {
   let bumper1 = Bodies.circle(255, 125, 30, { isStatic: true }); 
   let bumper2 = Bodies.circle(180, 200, 30, { isStatic: true });
@@ -116,6 +115,35 @@ let rightHinge = Bodies.circle(325, 533, 5, {
    });
 
 return [leftFlipper, rightFlipper, leftHinge, rightHinge]
+};
+
+
+//slings
+export const slingShot = function slingShot() {
+  let leftSlingShot = Bodies.trapezoid(150, 400, 40, 100, 0.5, {
+    isStatic: true,
+    angle: 5.58505,
+    chamfer: { radius: 10 },
+  });
+  let leftLaunchPad = Bodies.rectangle(155, 386, 5, 95, {
+    label: "launchpad",
+    isStatic: true,
+    angle: 5.47805,
+    chamfer: { radius: 2 },
+  });
+  let rightSlingShot = Bodies.trapezoid(340, 400, 40, 100, 0.5, {
+    isStatic: true,
+    angle: 0.698132,
+    chamfer: { radius: 10 },
+  });
+  let rightLauchPad = Bodies.rectangle(335, 386, 5, 95, {
+    label: "launchpad",
+    isStatic: true,
+    angle: 0.810132,
+    chamfer: { radius: 2 },
+  });
+
+  return [leftSlingShot, rightSlingShot, leftLaunchPad, rightLauchPad];
 };
 
 

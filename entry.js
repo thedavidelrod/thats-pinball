@@ -4,8 +4,8 @@
 import {
   bumpers,
   walls,
-  flippers
-  
+  flippers,
+  slingShot,
 } from "./app/assets/javascripts/playfield";
 import {ball} from "./app/assets/javascripts/ball"
 
@@ -37,7 +37,7 @@ function setup() {
   });
 
   world = engine.world;
-  const playfield = [bumpers(), walls(), flippers(), ball()];
+  const playfield = [bumpers(), walls(), flippers(), ball(), slingShot()];
  
   World.add(engine.world, playfield.reduce((prev, curr) => {
     return prev.concat(curr)

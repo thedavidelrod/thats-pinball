@@ -76,7 +76,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.flippers = exports.walls = exports.bumpers = undefined;
+exports.slingShot = exports.flippers = exports.walls = exports.bumpers = undefined;
 
 var _matterJs = __webpack_require__(4);
 
@@ -87,8 +87,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Bodies = _matterJs2.default.Bodies;
 var Constraint = _matterJs2.default.Constraint;
 
-//round things like bumpers and the ball
-
+//bumpers
 var bumpers = exports.bumpers = function bumpers() {
   var bumper1 = Bodies.circle(255, 125, 30, { isStatic: true });
   var bumper2 = Bodies.circle(180, 200, 30, { isStatic: true });
@@ -200,6 +199,34 @@ var flippers = exports.flippers = function flippers() {
   return [leftFlipper, rightFlipper, leftHinge, rightHinge];
 };
 
+//slings
+var slingShot = exports.slingShot = function slingShot() {
+  var leftSlingShot = Bodies.trapezoid(150, 400, 40, 100, 0.5, {
+    isStatic: true,
+    angle: 5.58505,
+    chamfer: { radius: 10 }
+  });
+  var leftLaunchPad = Bodies.rectangle(155, 386, 5, 95, {
+    label: "launchpad",
+    isStatic: true,
+    angle: 5.47805,
+    chamfer: { radius: 2 }
+  });
+  var rightSlingShot = Bodies.trapezoid(340, 400, 40, 100, 0.5, {
+    isStatic: true,
+    angle: 0.698132,
+    chamfer: { radius: 10 }
+  });
+  var rightLauchPad = Bodies.rectangle(335, 386, 5, 95, {
+    label: "launchpad",
+    isStatic: true,
+    angle: 0.810132,
+    chamfer: { radius: 2 }
+  });
+
+  return [leftSlingShot, rightSlingShot, leftLaunchPad, rightLauchPad];
+};
+
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -242,7 +269,7 @@ function setup() {
   });
 
   world = engine.world;
-  var playfield = [(0, _playfield.bumpers)(), (0, _playfield.walls)(), (0, _playfield.flippers)(), (0, _ball.ball)()];
+  var playfield = [(0, _playfield.bumpers)(), (0, _playfield.walls)(), (0, _playfield.flippers)(), (0, _ball.ball)(), (0, _playfield.slingShot)()];
 
   World.add(engine.world, playfield.reduce(function (prev, curr) {
     return prev.concat(curr);
