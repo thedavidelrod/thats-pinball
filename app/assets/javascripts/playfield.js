@@ -149,12 +149,12 @@ export const flippers = function flippers() {
   let leftBlock = Bodies.rectangle(200, 550, 30, 20, {
     
     isStatic: false,
-    // render: { visible: false },
+    render: { visible: false },
   });
 
   let rightBlock = Bodies.rectangle(290, 550, 30, 20, {
     isStatic: false,
-    //  render: { visible: false },
+      render: { visible: false },
   });
 
   let leftWeight = Constraint.create({
@@ -178,22 +178,22 @@ export const flippers = function flippers() {
    let leftBuffer = Bodies.circle(190, 605, 50, {
      label: "buffer",
      isStatic: true,
-    //  render: { visible: false },
+     render: { visible: false },
    });
    let leftTopBuffer = Bodies.circle(190, 450, 50, {
      label: "buffer",
      isStatic: true,
-    //  render: { visible: false },
+     render: { visible: false },
    });
    let rightBuffer = Bodies.circle(300, 605, 50, {
      label: "buffer",
      isStatic: true,
-    //  render: { visible: false },
+     render: { visible: false },
    });
    let rightTopBuffer = Bodies.circle(300, 450, 50, {
      label: "buffer",
      isStatic: true,
-      // render: { visible: false },
+     render: { visible: false },
    });
 
 
