@@ -2,7 +2,7 @@
  const Bodies = Matter.Bodies;
 
 export const ball = function ball() {
-let playBall = Bodies.circle(200, 0, 15, 80); //ball
+let playBall = Bodies.circle(100, 0, 15, 80); //ball
 return playBall
 }
 

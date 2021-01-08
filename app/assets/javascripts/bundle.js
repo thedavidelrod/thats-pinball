@@ -68,234 +68,9 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.slingShot = exports.flippers = exports.walls = exports.bumpers = undefined;
-
-var _matterJs = __webpack_require__(4);
-
-var _matterJs2 = _interopRequireDefault(_matterJs);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Bodies = _matterJs2.default.Bodies;
-var Constraint = _matterJs2.default.Constraint;
-var bufferGroup = _matterJs2.default.Body.nextGroup(true);
-
-//bumpers
-var bumpers = exports.bumpers = function bumpers() {
-  var bumper1 = Bodies.circle(255, 125, 30, { isStatic: true });
-  var bumper2 = Bodies.circle(180, 200, 30, { isStatic: true });
-  var bumper3 = Bodies.circle(325, 200, 30, { isStatic: true });
-  var bumper4 = Bodies.circle(255, 270, 30, { isStatic: true });
-  return [bumper1, bumper2, bumper3, bumper4];
-};
-
-//walls and lanes
-var walls = exports.walls = function walls() {
-  var leftWall = Bodies.rectangle(0, 325, 650, 20, {
-    angle: Math.PI / 2,
-    isStatic: true
-  });
-
-  var rightWall = Bodies.rectangle(550, 325, 650, 20, {
-    angle: Math.PI / 2,
-    isStatic: true
-  });
-  var ceiling = Bodies.rectangle(275, 0, 550, 20, { isStatic: true });
-  var plungeLane = Bodies.rectangle(490, 455, 400, 20, {
-    angle: Math.PI / 2,
-    chamfer: { radius: 10 },
-    isStatic: true
-  });
-
-  var baseLeft = Bodies.rectangle(90, 560, 220, 20, {
-    angle: Math.PI / 6,
-    chamfer: { radius: 10 },
-    isStatic: true
-  });
-
-  var baseRight = Bodies.rectangle(400, 560, 220, 20, {
-    angle: 5 * Math.PI / 6,
-    chamfer: { radius: 10 },
-    isStatic: true
-  });
-
-  var leftDiag = Bodies.rectangle(100, 0, 350, 200, {
-    angle: 5 * Math.PI / 6,
-    chamfer: { radius: 10 },
-    isStatic: true
-  });
-
-  var rightDiag = Bodies.rectangle(420, 0, 400, 200, {
-    angle: Math.PI / 6,
-    chamfer: { radius: 10 },
-    isStatic: true
-  });
-
-  var leftFlipperWallSlant = Bodies.rectangle(110, 490, 110, 20, {
-    angle: Math.PI / 6,
-    chamfer: { radius: 10 },
-    isStatic: true
-  });
-  var leftFlipperWallVert = Bodies.rectangle(63, 415, 120, 20, {
-    angle: Math.PI / 2,
-    chamfer: { radius: 10 },
-    isStatic: true
-  });
-
-  var leftThorn = Bodies.trapezoid(10, 280, 50, 50, 0.5, {
-    isStatic: true,
-    angle: Math.PI / 2,
-    chamfer: { radius: 10 }
-  });
-
-  var rightFlipperWallSlant = Bodies.rectangle(385, 495, 120, 20, {
-    angle: 5 * Math.PI / 6,
-    chamfer: { radius: 10 },
-    isStatic: true
-  });
-  var rightFlipperWallVert = Bodies.rectangle(435, 415, 120, 20, {
-    angle: Math.PI / 2,
-    chamfer: { radius: 10 },
-    isStatic: true
-  });
-
-  var rightThorn = Bodies.trapezoid(475, 280, 50, 50, 0.5, {
-    isStatic: true,
-    angle: 3 * Math.PI / 2,
-    chamfer: { radius: 10 }
-  });
-  return [rightThorn, rightFlipperWallVert, rightFlipperWallSlant, leftThorn, leftFlipperWallVert, leftFlipperWallSlant, rightDiag, leftDiag, baseRight, baseLeft, ceiling, plungeLane, rightWall, leftWall];
-};
-
-//flippers
-var flippers = exports.flippers = function flippers() {
-  var leftFlipper = Bodies.trapezoid(190, 540, 25, 80, 0.25, {
-    label: "leftFlipper",
-    angle: 2 * Math.PI / 3,
-    chamfer: { radius: 10 },
-    isSleeping: false
-  });
-  var rightFlipper = Bodies.trapezoid(300, 540, 25, 80, 0.25, {
-    label: "rightFlipper",
-    angle: 4 * Math.PI / 3,
-    chamfer: { radius: 10 },
-    isSleeping: false
-  });
-  var rightHinge = Bodies.circle(318, 529, 5, {
-    isStatic: true,
-    render: { fillStyle: "orange" }
-  });
-
-  var leftHinge = Bodies.circle(172, 529, 5, {
-    isStatic: true,
-    render: { fillStyle: "green" }
-  });
-
-  var leftConstraint = Constraint.create({
-    bodyA: leftFlipper,
-    bodyB: leftHinge,
-    pointA: { x: -19.6, y: -11 },
-    stiffness: 0,
-    length: 0,
-    render: { visable: false }
-  });
-  var rightConstraint = Constraint.create({
-    bodyA: rightFlipper,
-    bodyB: rightHinge,
-    pointA: { x: 19.6, y: -11 },
-    stiffness: 0,
-    length: 0,
-    render: { visable: false }
-  });
-
-  var leftBlock = Bodies.rectangle(200, 550, 30, 20, {
-
-    isStatic: false,
-    render: { visible: false }
-  });
-
-  var rightBlock = Bodies.rectangle(290, 550, 30, 20, {
-    isStatic: false,
-    render: { visible: false }
-  });
-
-  var leftWeight = Constraint.create({
-    bodyA: leftFlipper,
-    bodyB: leftBlock,
-    pointA: { x: 13, y: 11 },
-    stiffness: 1,
-    length: 1,
-    render: { visible: false }
-  });
-
-  var rightWeight = Constraint.create({
-    bodyA: rightFlipper,
-    bodyB: rightBlock,
-    pointA: { x: -13, y: 11 },
-    stiffness: 1,
-    length: 1,
-    render: { visible: false }
-  });
-
-  var leftBuffer = Bodies.circle(190, 605, 50, {
-    label: "buffer",
-    isStatic: true,
-    render: { visible: false }
-  });
-  var leftTopBuffer = Bodies.circle(190, 450, 50, {
-    label: "buffer",
-    isStatic: true,
-    render: { visible: false }
-  });
-  var rightBuffer = Bodies.circle(300, 605, 50, {
-    label: "buffer",
-    isStatic: true,
-    render: { visible: false }
-  });
-  var rightTopBuffer = Bodies.circle(300, 450, 50, {
-    label: "buffer",
-    isStatic: true,
-    render: { visible: false }
-  });
-
-  return [leftFlipper, rightFlipper, leftHinge, rightHinge, leftConstraint, rightConstraint, leftBlock, rightBlock, leftWeight, rightWeight, leftBuffer, leftTopBuffer, rightBuffer, rightTopBuffer];
-};
-
-//slings
-var slingShot = exports.slingShot = function slingShot() {
-  var leftSlingShot = Bodies.trapezoid(150, 400, 40, 100, 0.5, {
-    isStatic: true,
-    angle: 5.58505,
-    chamfer: { radius: 10 }
-  });
-  var leftLaunchPad = Bodies.rectangle(155, 386, 5, 95, {
-    label: "launchpad",
-    isStatic: true,
-    angle: 5.47805,
-    chamfer: { radius: 2 }
-  });
-  var rightSlingShot = Bodies.trapezoid(340, 400, 40, 100, 0.5, {
-    isStatic: true,
-    angle: 0.698132,
-    chamfer: { radius: 10 }
-  });
-  var rightLauchPad = Bodies.rectangle(335, 386, 5, 95, {
-    label: "launchpad",
-    isStatic: true,
-    angle: 0.810132,
-    chamfer: { radius: 2 }
-  });
-
-  return [leftSlingShot, rightSlingShot, leftLaunchPad, rightLauchPad];
-};
+throw new Error("Module build failed: SyntaxError: Unexpected token (197:0)\n\n\u001b[0m \u001b[90m 195 | \u001b[39m\n \u001b[90m 196 | \u001b[39m    isStatic\u001b[33m:\u001b[39m \u001b[36mfalse\u001b[39m\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 197 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\n \u001b[90m     | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 198 | \u001b[39m      render\u001b[33m:\u001b[39m { visible\u001b[33m:\u001b[39m \u001b[36mfalse\u001b[39m }\u001b[33m,\u001b[39m\n \u001b[90m 199 | \u001b[39m\u001b[33m===\u001b[39m\u001b[33m===\u001b[39m\u001b[33m=\u001b[39m\n \u001b[90m 200 | \u001b[39m    render\u001b[33m:\u001b[39m { visible\u001b[33m:\u001b[39m \u001b[36mfalse\u001b[39m }\u001b[33m,\u001b[39m\u001b[0m\n");
 
 /***/ }),
 /* 1 */
@@ -327,7 +102,9 @@ var rightFlipper = void 0;
 var leftFlipped = false;
 var rightFlipped = false;
 var bufferGroup = _matterJs2.default.Body.nextGroup(false);
-var flipperGroup = _matterJs2.default.Body.nextGroup(false);
+var score = void 0;
+var inPlay = void 0;
+var ballCount = void 0;
 
 function setup() {
   engine = Engine.create();
@@ -345,7 +122,7 @@ function setup() {
   });
 
   world = engine.world;
-  world.gravity.y = 0.95;
+  world.gravity.y = 0.8;
 
   var playfield = [(0, _playfield.bumpers)(), (0, _playfield.walls)(), (0, _playfield.flippers)(), (0, _ball.ball)(), (0, _playfield.slingShot)()];
 
@@ -398,6 +175,7 @@ function setup() {
     category: 4294967295,
     mask: 2
   };
+  inPlay = false;
 
   Engine.run(engine);
   Render.run(render);
@@ -10856,7 +10634,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Bodies = _matterJs2.default.Bodies;
 
 var ball = exports.ball = function ball() {
-  var playBall = Bodies.circle(200, 0, 15, 80); //ball
+  var playBall = Bodies.circle(100, 0, 15, 80); //ball
   return playBall;
 };
 

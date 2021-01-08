@@ -3,12 +3,31 @@ const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 const bufferGroup = Matter.Body.nextGroup(true);
 
+const COLORS = {
+  BUMPERS: "#DFFF00",
+  WALLS: "#FF00EF",
+  THORN: "#4A412A",
+  SLINGSHOT: "#F50",
+};
+
 //bumpers
 export const bumpers = function bumpers() {
-  let bumper1 = Bodies.circle(255, 125, 30, { isStatic: true });
-  let bumper2 = Bodies.circle(180, 200, 30, { isStatic: true });
-  let bumper3 = Bodies.circle(325, 200, 30, { isStatic: true });
-  let bumper4 = Bodies.circle(255, 270, 30, { isStatic: true });
+  let bumper1 = Bodies.circle(255, 125, 30, {
+    isStatic: true,
+    render: { fillStyle: COLORS.BUMPERS },
+  });
+  let bumper2 = Bodies.circle(180, 200, 30, {
+    isStatic: true,
+    render: { fillStyle: COLORS.BUMPERS },
+  });
+  let bumper3 = Bodies.circle(325, 200, 30, {
+    isStatic: true,
+    render: { fillStyle: COLORS.BUMPERS },
+  });
+  let bumper4 = Bodies.circle(255, 270, 30, {
+    isStatic: true,
+    render: { fillStyle: COLORS.BUMPERS },
+  });
   return [bumper1, bumper2, bumper3, bumper4];
 };
 
@@ -17,82 +36,100 @@ export const walls = function walls() {
   let leftWall = Bodies.rectangle(0, 325, 650, 20, {
     angle: Math.PI / 2,
     isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
   });
 
   let rightWall = Bodies.rectangle(550, 325, 650, 20, {
     angle: Math.PI / 2,
     isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
   });
-  let ceiling = Bodies.rectangle(275, 0, 550, 20, { isStatic: true });
-  let plungeLane = Bodies.rectangle(490, 455, 400, 20, {
+  let ceiling = Bodies.rectangle(275, 0, 550, 20, {
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
+  });
+
+  let plungeLane = Bodies.rectangle(490, 455, 600, 20, {
+    //change when you build plunger
     angle: Math.PI / 2,
     chamfer: { radius: 10 },
     isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
   });
 
   let baseLeft = Bodies.rectangle(90, 560, 220, 20, {
     angle: Math.PI / 6,
     chamfer: { radius: 10 },
     isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
   });
 
   let baseRight = Bodies.rectangle(400, 560, 220, 20, {
     angle: (5 * Math.PI) / 6,
     chamfer: { radius: 10 },
     isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
   });
 
   let leftDiag = Bodies.rectangle(100, 0, 350, 200, {
     angle: (5 * Math.PI) / 6,
     chamfer: { radius: 10 },
     isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
   });
 
   let rightDiag = Bodies.rectangle(420, 0, 400, 200, {
     angle: Math.PI / 6,
     chamfer: { radius: 10 },
     isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
   });
 
   let leftFlipperWallSlant = Bodies.rectangle(110, 490, 110, 20, {
     angle: Math.PI / 6,
     chamfer: { radius: 10 },
     isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
   });
   let leftFlipperWallVert = Bodies.rectangle(63, 415, 120, 20, {
     angle: Math.PI / 2,
     chamfer: { radius: 10 },
     isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
   });
 
   let leftThorn = Bodies.trapezoid(10, 280, 50, 50, 0.5, {
     isStatic: true,
     angle: Math.PI / 2,
     chamfer: { radius: 10 },
+    render: { fillStyle: COLORS.THORN },
   });
 
   let rightFlipperWallSlant = Bodies.rectangle(385, 495, 120, 20, {
     angle: (5 * Math.PI) / 6,
     chamfer: { radius: 10 },
     isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
   });
   let rightFlipperWallVert = Bodies.rectangle(435, 415, 120, 20, {
     angle: Math.PI / 2,
     chamfer: { radius: 10 },
     isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
   });
 
   let rightThorn = Bodies.trapezoid(475, 280, 50, 50, 0.5, {
     isStatic: true,
     angle: (3 * Math.PI) / 2,
     chamfer: { radius: 10 },
+    render: { fillStyle: COLORS.THORN },
   });
   return [
     rightThorn,
     rightFlipperWallVert,
-   rightFlipperWallSlant,
+    rightFlipperWallSlant,
     leftThorn,
-     leftFlipperWallVert,
+    leftFlipperWallVert,
     leftFlipperWallSlant,
     rightDiag,
     leftDiag,
@@ -135,7 +172,7 @@ export const flippers = function flippers() {
     pointA: { x: -19.6, y: -11 },
     stiffness: 0,
     length: 0,
-      render: { visable: false },
+    render: { visable: false },
   });
   let rightConstraint = Constraint.create({
     bodyA: rightFlipper,
@@ -143,24 +180,39 @@ export const flippers = function flippers() {
     pointA: { x: 19.6, y: -11 },
     stiffness: 0,
     length: 0,
-      render: { visable: false },
+    render: { visable: false },
   });
 
-  let leftBlock = Bodies.rectangle(200, 550, 30, 20, {
-    
+  let leftBlock = Bodies.rectangle(100, 420, 20, 35, {
+    angle: (2 * Math.PI) / 7.5,
+
     isStatic: false,
     render: { visible: false },
   });
 
-  let rightBlock = Bodies.rectangle(290, 550, 30, 20, {
+  let rightBlock = Bodies.rectangle(250, 548, 20, 35, {
+    angle: (2 * Math.PI) / 2.7,
+
     isStatic: false,
+<<<<<<< HEAD
       render: { visible: false },
+=======
+    render: { visible: false },
+>>>>>>> gh-pages
   });
 
   let leftWeight = Constraint.create({
     bodyA: leftFlipper,
     bodyB: leftBlock,
-    pointA: { x: 13, y: 11 },
+    pointA: { x: 18, y: 11 },
+    stiffness: 1,
+    length: 1,
+    render: { visible: false },
+  });
+  let leftWeight2 = Constraint.create({
+    bodyA: leftBlock,
+    bodyB: leftFlipper,
+    pointA: { x: -13, y: 11 },
     stiffness: 1,
     length: 1,
     render: { visible: false },
@@ -172,6 +224,7 @@ export const flippers = function flippers() {
     pointA: { x: -13, y: 11 },
     stiffness: 1,
     length: 1,
+<<<<<<< HEAD
      render: { visible: false },
   });
 
@@ -195,7 +248,39 @@ export const flippers = function flippers() {
      isStatic: true,
      render: { visible: false },
    });
+=======
+    render: { visible: false },
+  });
+  let rightWeight2 = Constraint.create({
+    bodyA: rightBlock,
+    bodyB: rightFlipper,
+    pointA: { x: 18, y: 11 },
+    stiffness: 1,
+    length: 1,
+    render: { visible: false },
+  });
+>>>>>>> gh-pages
 
+  let leftBuffer = Bodies.circle(190, 605, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false },
+  });
+  let leftTopBuffer = Bodies.circle(190, 450, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false },
+  });
+  let rightBuffer = Bodies.circle(300, 605, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false },
+  });
+  let rightTopBuffer = Bodies.circle(300, 450, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false },
+  });
 
   return [
     leftFlipper,
@@ -206,12 +291,14 @@ export const flippers = function flippers() {
     rightConstraint,
     leftBlock,
     rightBlock,
-     leftWeight,
+    leftWeight,
     rightWeight,
     leftBuffer,
     leftTopBuffer,
     rightBuffer,
-    rightTopBuffer
+    rightTopBuffer,
+    rightWeight2,
+    leftWeight2,
   ];
 };
 
@@ -221,23 +308,28 @@ export const slingShot = function slingShot() {
     isStatic: true,
     angle: 5.58505,
     chamfer: { radius: 10 },
+    render: { fillStyle: COLORS.SLINGSHOT },
   });
+
   let leftLaunchPad = Bodies.rectangle(155, 386, 5, 95, {
     label: "launchpad",
     isStatic: true,
     angle: 5.47805,
     chamfer: { radius: 2 },
+    render: { fillStyle: COLORS.SLINGSHOT },
   });
   let rightSlingShot = Bodies.trapezoid(340, 400, 40, 100, 0.5, {
     isStatic: true,
     angle: 0.698132,
     chamfer: { radius: 10 },
+    render: { fillStyle: COLORS.SLINGSHOT },
   });
   let rightLauchPad = Bodies.rectangle(335, 386, 5, 95, {
     label: "launchpad",
     isStatic: true,
     angle: 0.810132,
     chamfer: { radius: 2 },
+    render: { fillStyle: COLORS.SLINGSHOT },
   });
 
   return [leftSlingShot, rightSlingShot, leftLaunchPad, rightLauchPad];

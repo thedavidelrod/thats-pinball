@@ -21,7 +21,11 @@ let rightFlipper;
 let leftFlipped = false;
 let rightFlipped = false;
 const bufferGroup = Matter.Body.nextGroup(false);
-const flipperGroup = Matter.Body.nextGroup(false);
+let score;
+let inPlay;
+let ballCount;
+
+
 
 
 
@@ -44,7 +48,7 @@ function setup() {
   });
 
   world = engine.world;
-    world.gravity.y = 0.95;
+    world.gravity.y = 0.8;
 
   const playfield = [bumpers(), walls(), flippers(), ball(), slingShot()];
 
@@ -76,6 +80,7 @@ for (let buffer of buffers) {
     category: 4294967295,
     mask: 2,
   };  
+    inPlay = false;
 
 
   Engine.run(engine);
