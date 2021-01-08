@@ -48,7 +48,7 @@ function setup() {
   });
 
   world = engine.world;
-    world.gravity.y = 0.95;
+    world.gravity.y = 0.8;
 
   const playfield = [bumpers(), walls(), flippers(), ball(), slingShot()];
 

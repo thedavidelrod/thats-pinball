@@ -408,7 +408,7 @@ function setup() {
   });
 
   world = engine.world;
-  world.gravity.y = 0.95;
+  world.gravity.y = 0.8;
 
   var playfield = [(0, _playfield.bumpers)(), (0, _playfield.walls)(), (0, _playfield.flippers)(), (0, _ball.ball)(), (0, _playfield.slingShot)()];
 
