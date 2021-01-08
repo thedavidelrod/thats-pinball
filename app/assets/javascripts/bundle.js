@@ -109,7 +109,8 @@ var walls = exports.walls = function walls() {
     isStatic: true
   });
   var ceiling = Bodies.rectangle(275, 0, 550, 20, { isStatic: true });
-  var plungeLane = Bodies.rectangle(490, 455, 400, 20, {
+
+  var plungeLane = Bodies.rectangle(490, 455, 600, 20, { //change when you build plunger
     angle: Math.PI / 2,
     chamfer: { radius: 10 },
     isStatic: true
@@ -216,21 +217,32 @@ var flippers = exports.flippers = function flippers() {
     render: { visable: false }
   });
 
-  var leftBlock = Bodies.rectangle(200, 550, 30, 20, {
+  var leftBlock = Bodies.rectangle(100, 420, 20, 40, {
+    angle: 2 * Math.PI / 7.1,
 
     isStatic: false,
     render: { visible: false }
   });
 
-  var rightBlock = Bodies.rectangle(290, 550, 30, 20, {
-    isStatic: false
-    //  render: { visible: false },
+  var rightBlock = Bodies.rectangle(250, 548, 20, 40, {
+    angle: 2 * Math.PI / 2.7,
+
+    isStatic: false,
+    render: { visible: false }
   });
 
   var leftWeight = Constraint.create({
     bodyA: leftFlipper,
     bodyB: leftBlock,
-    pointA: { x: 13, y: 11 },
+    pointA: { x: 18, y: 11 },
+    stiffness: 1,
+    length: 1,
+    render: { visible: false }
+  });
+  var leftWeight2 = Constraint.create({
+    bodyA: leftBlock,
+    bodyB: leftFlipper,
+    pointA: { x: -13, y: 11 },
     stiffness: 1,
     length: 1,
     render: { visible: false }
@@ -240,6 +252,14 @@ var flippers = exports.flippers = function flippers() {
     bodyA: rightFlipper,
     bodyB: rightBlock,
     pointA: { x: -13, y: 11 },
+    stiffness: 1,
+    length: 1,
+    render: { visible: false }
+  });
+  var rightWeight2 = Constraint.create({
+    bodyA: rightBlock,
+    bodyB: rightFlipper,
+    pointA: { x: 18, y: 11 },
     stiffness: 1,
     length: 1,
     render: { visible: false }
@@ -266,7 +286,7 @@ var flippers = exports.flippers = function flippers() {
     render: { visible: false }
   });
 
-  return [leftFlipper, rightFlipper, leftHinge, rightHinge, leftConstraint, rightConstraint, leftBlock, rightBlock, leftWeight, rightWeight, leftBuffer, leftTopBuffer, rightBuffer, rightTopBuffer];
+  return [leftFlipper, rightFlipper, leftHinge, rightHinge, leftConstraint, rightConstraint, leftBlock, rightBlock, leftWeight, rightWeight, leftBuffer, leftTopBuffer, rightBuffer, rightTopBuffer, rightWeight2, leftWeight2];
 };
 
 //slings
@@ -324,10 +344,10 @@ var engine = void 0;
 var world = void 0;
 var leftFlipper = void 0;
 var rightFlipper = void 0;
+var inPlay = void 0;
 var leftFlipped = false;
 var rightFlipped = false;
 var bufferGroup = _matterJs2.default.Body.nextGroup(false);
-var flipperGroup = _matterJs2.default.Body.nextGroup(false);
 
 function setup() {
   engine = Engine.create();
@@ -398,6 +418,7 @@ function setup() {
     category: 4294967295,
     mask: 2
   };
+  inPlay = false;
 
   Engine.run(engine);
   Render.run(render);
@@ -10856,7 +10877,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Bodies = _matterJs2.default.Bodies;
 
 var ball = exports.ball = function ball() {
-  var playBall = Bodies.circle(200, 0, 15, 80); //ball
+  var playBall = Bodies.circle(100, 0, 15, 80); //ball
   return playBall;
 };
 

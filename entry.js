@@ -18,10 +18,10 @@ let engine;
 let world;
 let leftFlipper;
 let rightFlipper;
+let inPlay;
 let leftFlipped = false;
 let rightFlipped = false;
 const bufferGroup = Matter.Body.nextGroup(false);
-const flipperGroup = Matter.Body.nextGroup(false);
 
 
 
@@ -76,6 +76,7 @@ for (let buffer of buffers) {
     category: 4294967295,
     mask: 2,
   };  
+    inPlay = false;
 
 
   Engine.run(engine);

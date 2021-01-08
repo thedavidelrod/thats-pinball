@@ -24,7 +24,8 @@ export const walls = function walls() {
     isStatic: true,
   });
   let ceiling = Bodies.rectangle(275, 0, 550, 20, { isStatic: true });
-  let plungeLane = Bodies.rectangle(490, 455, 400, 20, {
+  
+  let plungeLane = Bodies.rectangle(490, 455, 600, 20, {  //change when you build plunger
     angle: Math.PI / 2,
     chamfer: { radius: 10 },
     isStatic: true,
@@ -146,24 +147,35 @@ export const flippers = function flippers() {
       render: { visable: false },
   });
 
-  let leftBlock = Bodies.rectangle(200, 550, 30, 20, {
-    
+  let leftBlock = Bodies.rectangle(100, 420, 20, 40, {
+    angle: (2 * Math.PI) / 7.1,
+
     isStatic: false,
-   render: { visible: false },
+     render: { visible: false },
   });
 
-  let rightBlock = Bodies.rectangle(290, 550, 30, 20, {
+  let rightBlock = Bodies.rectangle(250, 548, 20, 40, {
+    angle: (2 * Math.PI) / 2.7,
+
     isStatic: false,
-    //  render: { visible: false },
+     render: { visible: false },
   });
 
   let leftWeight = Constraint.create({
     bodyA: leftFlipper,
     bodyB: leftBlock,
-    pointA: { x: 13, y: 11 },
+    pointA: { x: 18, y: 11 },
     stiffness: 1,
     length: 1,
-    render: { visible: false },
+      render: { visible: false },
+  });
+  let leftWeight2 = Constraint.create({
+    bodyA: leftBlock,
+    bodyB: leftFlipper,
+    pointA: { x: -13, y: 11 },
+    stiffness: 1,
+    length: 1,
+      render: { visible: false },
   });
 
   let rightWeight = Constraint.create({
@@ -172,8 +184,17 @@ export const flippers = function flippers() {
     pointA: { x: -13, y: 11 },
     stiffness: 1,
     length: 1,
-     render: { visible: false },
+      render: { visible: false },
   });
+let rightWeight2 = Constraint.create({
+  bodyA: rightBlock,
+  bodyB: rightFlipper,
+  pointA: { x: 18, y: 11 },
+  stiffness: 1,
+  length: 1,
+    render: { visible: false },
+});
+  
 
    let leftBuffer = Bodies.circle(190, 605, 50, {
      label: "buffer",
@@ -206,12 +227,14 @@ export const flippers = function flippers() {
     rightConstraint,
     leftBlock,
     rightBlock,
-     leftWeight,
+    leftWeight,
     rightWeight,
     leftBuffer,
     leftTopBuffer,
     rightBuffer,
-    rightTopBuffer
+    rightTopBuffer,
+    rightWeight2,
+    leftWeight2,
   ];
 };
 
