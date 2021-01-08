@@ -88,12 +88,31 @@ var Bodies = _matterJs2.default.Bodies;
 var Constraint = _matterJs2.default.Constraint;
 var bufferGroup = _matterJs2.default.Body.nextGroup(true);
 
+var COLORS = {
+  BUMPERS: "#DFFF00",
+  WALLS: "#FF00EF",
+  THORN: "#4A412A",
+  SLINGSHOT: "#F50"
+};
+
 //bumpers
 var bumpers = exports.bumpers = function bumpers() {
-  var bumper1 = Bodies.circle(255, 125, 30, { isStatic: true });
-  var bumper2 = Bodies.circle(180, 200, 30, { isStatic: true });
-  var bumper3 = Bodies.circle(325, 200, 30, { isStatic: true });
-  var bumper4 = Bodies.circle(255, 270, 30, { isStatic: true });
+  var bumper1 = Bodies.circle(255, 125, 30, {
+    isStatic: true,
+    render: { fillStyle: COLORS.BUMPERS }
+  });
+  var bumper2 = Bodies.circle(180, 200, 30, {
+    isStatic: true,
+    render: { fillStyle: COLORS.BUMPERS }
+  });
+  var bumper3 = Bodies.circle(325, 200, 30, {
+    isStatic: true,
+    render: { fillStyle: COLORS.BUMPERS }
+  });
+  var bumper4 = Bodies.circle(255, 270, 30, {
+    isStatic: true,
+    render: { fillStyle: COLORS.BUMPERS }
+  });
   return [bumper1, bumper2, bumper3, bumper4];
 };
 
@@ -101,77 +120,94 @@ var bumpers = exports.bumpers = function bumpers() {
 var walls = exports.walls = function walls() {
   var leftWall = Bodies.rectangle(0, 325, 650, 20, {
     angle: Math.PI / 2,
-    isStatic: true
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
   });
 
   var rightWall = Bodies.rectangle(550, 325, 650, 20, {
     angle: Math.PI / 2,
-    isStatic: true
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
   });
-  var ceiling = Bodies.rectangle(275, 0, 550, 20, { isStatic: true });
+  var ceiling = Bodies.rectangle(275, 0, 550, 20, {
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
 
-  var plungeLane = Bodies.rectangle(490, 455, 600, 20, { //change when you build plunger
+  var plungeLane = Bodies.rectangle(490, 455, 600, 20, {
+    //change when you build plunger
     angle: Math.PI / 2,
     chamfer: { radius: 10 },
-    isStatic: true
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
   });
 
   var baseLeft = Bodies.rectangle(90, 560, 220, 20, {
     angle: Math.PI / 6,
     chamfer: { radius: 10 },
-    isStatic: true
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
   });
 
   var baseRight = Bodies.rectangle(400, 560, 220, 20, {
     angle: 5 * Math.PI / 6,
     chamfer: { radius: 10 },
-    isStatic: true
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
   });
 
   var leftDiag = Bodies.rectangle(100, 0, 350, 200, {
     angle: 5 * Math.PI / 6,
     chamfer: { radius: 10 },
-    isStatic: true
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
   });
 
   var rightDiag = Bodies.rectangle(420, 0, 400, 200, {
     angle: Math.PI / 6,
     chamfer: { radius: 10 },
-    isStatic: true
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
   });
 
   var leftFlipperWallSlant = Bodies.rectangle(110, 490, 110, 20, {
     angle: Math.PI / 6,
     chamfer: { radius: 10 },
-    isStatic: true
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
   });
   var leftFlipperWallVert = Bodies.rectangle(63, 415, 120, 20, {
     angle: Math.PI / 2,
     chamfer: { radius: 10 },
-    isStatic: true
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
   });
 
   var leftThorn = Bodies.trapezoid(10, 280, 50, 50, 0.5, {
     isStatic: true,
     angle: Math.PI / 2,
-    chamfer: { radius: 10 }
+    chamfer: { radius: 10 },
+    render: { fillStyle: COLORS.THORN }
   });
 
   var rightFlipperWallSlant = Bodies.rectangle(385, 495, 120, 20, {
     angle: 5 * Math.PI / 6,
     chamfer: { radius: 10 },
-    isStatic: true
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
   });
   var rightFlipperWallVert = Bodies.rectangle(435, 415, 120, 20, {
     angle: Math.PI / 2,
     chamfer: { radius: 10 },
-    isStatic: true
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
   });
 
   var rightThorn = Bodies.trapezoid(475, 280, 50, 50, 0.5, {
     isStatic: true,
     angle: 3 * Math.PI / 2,
-    chamfer: { radius: 10 }
+    chamfer: { radius: 10 },
+    render: { fillStyle: COLORS.THORN }
   });
   return [rightThorn, rightFlipperWallVert, rightFlipperWallSlant, leftThorn, leftFlipperWallVert, leftFlipperWallSlant, rightDiag, leftDiag, baseRight, baseLeft, ceiling, plungeLane, rightWall, leftWall];
 };
@@ -217,14 +253,14 @@ var flippers = exports.flippers = function flippers() {
     render: { visable: false }
   });
 
-  var leftBlock = Bodies.rectangle(100, 420, 20, 40, {
-    angle: 2 * Math.PI / 7.1,
+  var leftBlock = Bodies.rectangle(100, 420, 20, 35, {
+    angle: 2 * Math.PI / 7.5,
 
     isStatic: false,
     render: { visible: false }
   });
 
-  var rightBlock = Bodies.rectangle(250, 548, 20, 40, {
+  var rightBlock = Bodies.rectangle(250, 548, 20, 35, {
     angle: 2 * Math.PI / 2.7,
 
     isStatic: false,
@@ -294,24 +330,29 @@ var slingShot = exports.slingShot = function slingShot() {
   var leftSlingShot = Bodies.trapezoid(150, 400, 40, 100, 0.5, {
     isStatic: true,
     angle: 5.58505,
-    chamfer: { radius: 10 }
+    chamfer: { radius: 10 },
+    render: { fillStyle: COLORS.SLINGSHOT }
   });
+
   var leftLaunchPad = Bodies.rectangle(155, 386, 5, 95, {
     label: "launchpad",
     isStatic: true,
     angle: 5.47805,
-    chamfer: { radius: 2 }
+    chamfer: { radius: 2 },
+    render: { fillStyle: COLORS.SLINGSHOT }
   });
   var rightSlingShot = Bodies.trapezoid(340, 400, 40, 100, 0.5, {
     isStatic: true,
     angle: 0.698132,
-    chamfer: { radius: 10 }
+    chamfer: { radius: 10 },
+    render: { fillStyle: COLORS.SLINGSHOT }
   });
   var rightLauchPad = Bodies.rectangle(335, 386, 5, 95, {
     label: "launchpad",
     isStatic: true,
     angle: 0.810132,
-    chamfer: { radius: 2 }
+    chamfer: { radius: 2 },
+    render: { fillStyle: COLORS.SLINGSHOT }
   });
 
   return [leftSlingShot, rightSlingShot, leftLaunchPad, rightLauchPad];
@@ -344,10 +385,12 @@ var engine = void 0;
 var world = void 0;
 var leftFlipper = void 0;
 var rightFlipper = void 0;
-var inPlay = void 0;
 var leftFlipped = false;
 var rightFlipped = false;
 var bufferGroup = _matterJs2.default.Body.nextGroup(false);
+var score = void 0;
+var inPlay = void 0;
+var ballCount = void 0;
 
 function setup() {
   engine = Engine.create();

@@ -18,10 +18,14 @@ let engine;
 let world;
 let leftFlipper;
 let rightFlipper;
-let inPlay;
 let leftFlipped = false;
 let rightFlipped = false;
 const bufferGroup = Matter.Body.nextGroup(false);
+let score;
+let inPlay;
+let ballCount;
+
+
 
 
 
