@@ -194,11 +194,7 @@ export const flippers = function flippers() {
     angle: (2 * Math.PI) / 2.7,
 
     isStatic: false,
-<<<<<<< HEAD
-      render: { visible: false },
-=======
     render: { visible: false },
->>>>>>> gh-pages
   });
 
   let leftWeight = Constraint.create({
@@ -224,31 +220,6 @@ export const flippers = function flippers() {
     pointA: { x: -13, y: 11 },
     stiffness: 1,
     length: 1,
-<<<<<<< HEAD
-     render: { visible: false },
-  });
-
-   let leftBuffer = Bodies.circle(190, 605, 50, {
-     label: "buffer",
-     isStatic: true,
-     render: { visible: false },
-   });
-   let leftTopBuffer = Bodies.circle(190, 450, 50, {
-     label: "buffer",
-     isStatic: true,
-     render: { visible: false },
-   });
-   let rightBuffer = Bodies.circle(300, 605, 50, {
-     label: "buffer",
-     isStatic: true,
-     render: { visible: false },
-   });
-   let rightTopBuffer = Bodies.circle(300, 450, 50, {
-     label: "buffer",
-     isStatic: true,
-     render: { visible: false },
-   });
-=======
     render: { visible: false },
   });
   let rightWeight2 = Constraint.create({
@@ -259,7 +230,6 @@ export const flippers = function flippers() {
     length: 1,
     render: { visible: false },
   });
->>>>>>> gh-pages
 
   let leftBuffer = Bodies.circle(190, 605, 50, {
     label: "buffer",
