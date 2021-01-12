@@ -1,31 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+     <meta property="og:title" content="That's Pinball!" />
+     <meta property="og:image" content="app/assets/style/images/Screen Shot 2021-01-11 at 8.31.14 PM.png" />
+     <meta
+       property="og:description"
+       content="That's Pinball! is a pinball game created using JavaScript and the Matter.JS library."
+     />
+     <meta
+       property="og:url"
+       content="https://thedavidelrod.github.io/thats-pinball/"
+     />
+
     <title>That's Pinball</title>
     <script type="text/javascript" src="./app/assets/javascripts/bundle.js" charset="utf-8"></script>
-
+        <link rel="stylesheet" href="app/assets/style/images/style.css">
         <script src="./node_modules/matter-js/build/matter.js"></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" type="image/png" href="app/assets/style/images/128edd5de81fc55d.png"/>
 
-
-        <style>
-            body {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            }
-        </style>
-       
 </head>
-    <body>
-        <canvas id='playfield'></canvas>
+<body>
+    <div class= 'body'>
+ <img src="app/assets/style/images/128edd5de81fc55d.png" alt="">
+
+    <canvas id='playfield'></canvas>
 
 
-
-    </body>
+ <div class='instructions'> Press the ⬅️ ➡️ buttons to flip</div> 
+</div>
+</body>
 </html>
+
+
+
     
 
 
