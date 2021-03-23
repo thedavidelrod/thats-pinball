@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/thedavidelrod/thats-pinball"
   },
   "keywords": [],
-  "author": "",
+  "author": "David Elrod",
   "license": "ISC",
-  "homepage": "",
+  "homepage": "https://thedavidelrod.github.io/thats-pinball/",
   "dependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",

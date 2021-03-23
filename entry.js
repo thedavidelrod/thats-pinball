@@ -5,10 +5,11 @@ import {
   walls,
   flippers,
   slingShot,
+  plungeLane
 } from "./app/assets/javascripts/playfield";
-import { ball } from "./app/assets/javascripts/ball";
+// import { ball } from "./app/assets/javascripts/ball";
 
-var Engine = Matter.Engine,
+let Engine = Matter.Engine,
   Render = Matter.Render,
   World = Matter.World,
   Bodies = Matter.Bodies,
@@ -30,8 +31,8 @@ function setup() {
   engine = Engine.create();
 
   let render = Render.create({
-    canvas: document.querySelector("#playfield"),
-
+     canvas: document.querySelector("#playfield"),
+    
     element: document.body,
     engine: engine,
     options: {
@@ -45,7 +46,7 @@ function setup() {
   world = engine.world;
   world.gravity.y = 0.8;
 
-  const playfield = [bumpers(), walls(), flippers(), ball(), slingShot()];
+   const playfield = [bumpers(), walls(), flippers(), ball(), slingShot(), plungeLane()];
 
   World.add(
     engine.world,
@@ -91,6 +92,7 @@ function openPlunge() {
     (body) => body.label === "plungeLane"
   )[0];
   Matter.Body.translate(hatch, { x: 0, y: 100 });
+  
   plungeOpen = false;
 }
 
@@ -108,7 +110,7 @@ function launchAction(e) {
     (inPlay === false && keyCode === 38 && ballCount > 0) ||
     (inPlay === false && keyCode === 32 && ballCount > 0)
   ) {
-    openHatch();
+    openPlunge();
     let pinball = createBall();
     pinball.collisionFilter = { mask: 4294967295, category: 2, group: 0 };
     pinball.label = "pinball";
@@ -153,8 +155,8 @@ function ballOut() {
         displayBallCount.innerHTML = ballCount;
         displayBallCount.addEventListener("transitionend", removeTransition);
         listening = false;
-      } else if (pinball[0].position.x < 490 && hatchUp === false) {
-        closeHatch();
+      } else if (pinball[0].position.x < 490 && plungeOpen === false) {
+        closePlunge();
       }
     }, 250);
   }
@@ -298,6 +300,6 @@ function resetGlobalVariables() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  setup();
-  flipperCommand();
+   setup();
+   flipperCommand();
 });
