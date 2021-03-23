@@ -13,22 +13,40 @@ const COLORS = {
 //bumpers
 export const bumpers = function bumpers() {
   let bumper1 = Bodies.circle(255, 125, 30, {
+    label: "bumper",
     isStatic: true,
     render: { fillStyle: COLORS.BUMPERS },
+
   });
   let bumper2 = Bodies.circle(180, 200, 30, {
+    label: "bumper",
     isStatic: true,
     render: { fillStyle: COLORS.BUMPERS },
   });
   let bumper3 = Bodies.circle(325, 200, 30, {
+    label: "bumper",
     isStatic: true,
     render: { fillStyle: COLORS.BUMPERS },
+
   });
   let bumper4 = Bodies.circle(255, 270, 30, {
+    label: "bumper",
     isStatic: true,
     render: { fillStyle: COLORS.BUMPERS },
+
   });
   return [bumper1, bumper2, bumper3, bumper4];
+};
+export const plungeLane = function plungeLane() {
+  let hatch = Bodies.rectangle(490, 210, 130, 20, {
+    label: "plungeLane",
+    angle: Math.PI / 2,
+    chamfer: { radius: 10 },
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS },
+  });
+
+  return [hatch];
 };
 
 //walls and lanes
@@ -45,14 +63,6 @@ export const walls = function walls() {
     render: { fillStyle: COLORS.WALLS },
   });
   let ceiling = Bodies.rectangle(275, 0, 550, 20, {
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS },
-  });
-
-  let plungeLane = Bodies.rectangle(490, 455, 600, 20, {
-    //change when you build plunger
-    angle: Math.PI / 2,
-    chamfer: { radius: 10 },
     isStatic: true,
     render: { fillStyle: COLORS.WALLS },
   });
@@ -136,7 +146,6 @@ export const walls = function walls() {
     baseRight,
     baseLeft,
     ceiling,
-    plungeLane,
     rightWall,
     leftWall,
   ];

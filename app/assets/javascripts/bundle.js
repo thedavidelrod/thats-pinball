@@ -63,476 +63,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.slingShot = exports.flippers = exports.walls = exports.bumpers = undefined;
-
-var _matterJs = __webpack_require__(4);
-
-var _matterJs2 = _interopRequireDefault(_matterJs);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Bodies = _matterJs2.default.Bodies;
-var Constraint = _matterJs2.default.Constraint;
-var bufferGroup = _matterJs2.default.Body.nextGroup(true);
-
-var COLORS = {
-  BUMPERS: "#DFFF00",
-  WALLS: "#FF00EF",
-  THORN: "#4A412A",
-  SLINGSHOT: "#F50"
-};
-
-//bumpers
-var bumpers = exports.bumpers = function bumpers() {
-  var bumper1 = Bodies.circle(255, 125, 30, {
-    isStatic: true,
-    render: { fillStyle: COLORS.BUMPERS }
-  });
-  var bumper2 = Bodies.circle(180, 200, 30, {
-    isStatic: true,
-    render: { fillStyle: COLORS.BUMPERS }
-  });
-  var bumper3 = Bodies.circle(325, 200, 30, {
-    isStatic: true,
-    render: { fillStyle: COLORS.BUMPERS }
-  });
-  var bumper4 = Bodies.circle(255, 270, 30, {
-    isStatic: true,
-    render: { fillStyle: COLORS.BUMPERS }
-  });
-  return [bumper1, bumper2, bumper3, bumper4];
-};
-
-//walls and lanes
-var walls = exports.walls = function walls() {
-  var leftWall = Bodies.rectangle(0, 325, 650, 20, {
-    angle: Math.PI / 2,
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-
-  var rightWall = Bodies.rectangle(550, 325, 650, 20, {
-    angle: Math.PI / 2,
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-  var ceiling = Bodies.rectangle(275, 0, 550, 20, {
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-
-  var plungeLane = Bodies.rectangle(490, 455, 600, 20, {
-    //change when you build plunger
-    angle: Math.PI / 2,
-    chamfer: { radius: 10 },
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-
-  var baseLeft = Bodies.rectangle(90, 560, 220, 20, {
-    angle: Math.PI / 6,
-    chamfer: { radius: 10 },
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-
-  var baseRight = Bodies.rectangle(400, 560, 220, 20, {
-    angle: 5 * Math.PI / 6,
-    chamfer: { radius: 10 },
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-
-  var leftDiag = Bodies.rectangle(100, 0, 350, 200, {
-    angle: 5 * Math.PI / 6,
-    chamfer: { radius: 10 },
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-
-  var rightDiag = Bodies.rectangle(420, 0, 400, 200, {
-    angle: Math.PI / 6,
-    chamfer: { radius: 10 },
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-
-  var leftFlipperWallSlant = Bodies.rectangle(110, 490, 110, 20, {
-    angle: Math.PI / 6,
-    chamfer: { radius: 10 },
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-  var leftFlipperWallVert = Bodies.rectangle(63, 415, 120, 20, {
-    angle: Math.PI / 2,
-    chamfer: { radius: 10 },
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-
-  var leftThorn = Bodies.trapezoid(10, 280, 50, 50, 0.5, {
-    isStatic: true,
-    angle: Math.PI / 2,
-    chamfer: { radius: 10 },
-    render: { fillStyle: COLORS.THORN }
-  });
-
-  var rightFlipperWallSlant = Bodies.rectangle(385, 495, 120, 20, {
-    angle: 5 * Math.PI / 6,
-    chamfer: { radius: 10 },
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-  var rightFlipperWallVert = Bodies.rectangle(435, 415, 120, 20, {
-    angle: Math.PI / 2,
-    chamfer: { radius: 10 },
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-
-  var rightThorn = Bodies.trapezoid(475, 280, 50, 50, 0.5, {
-    isStatic: true,
-    angle: 3 * Math.PI / 2,
-    chamfer: { radius: 10 },
-    render: { fillStyle: COLORS.THORN }
-  });
-  return [rightThorn, rightFlipperWallVert, rightFlipperWallSlant, leftThorn, leftFlipperWallVert, leftFlipperWallSlant, rightDiag, leftDiag, baseRight, baseLeft, ceiling, plungeLane, rightWall, leftWall];
-};
-
-//flippers
-var flippers = exports.flippers = function flippers() {
-  var leftFlipper = Bodies.trapezoid(190, 540, 25, 80, 0.25, {
-    label: "leftFlipper",
-    angle: 2 * Math.PI / 3,
-    chamfer: { radius: 10 },
-    isSleeping: false
-  });
-  var rightFlipper = Bodies.trapezoid(300, 540, 25, 80, 0.25, {
-    label: "rightFlipper",
-    angle: 4 * Math.PI / 3,
-    chamfer: { radius: 10 },
-    isSleeping: false
-  });
-  var rightHinge = Bodies.circle(318, 529, 5, {
-    isStatic: true,
-    render: { fillStyle: "orange" }
-  });
-
-  var leftHinge = Bodies.circle(172, 529, 5, {
-    isStatic: true,
-    render: { fillStyle: "green" }
-  });
-
-  var leftConstraint = Constraint.create({
-    bodyA: leftFlipper,
-    bodyB: leftHinge,
-    pointA: { x: -19.6, y: -11 },
-    stiffness: 0,
-    length: 0,
-    render: { visable: false }
-  });
-  var rightConstraint = Constraint.create({
-    bodyA: rightFlipper,
-    bodyB: rightHinge,
-    pointA: { x: 19.6, y: -11 },
-    stiffness: 0,
-    length: 0,
-    render: { visable: false }
-  });
-
-  var leftBlock = Bodies.rectangle(100, 420, 20, 35, {
-    angle: 2 * Math.PI / 7.5,
-
-    isStatic: false,
-    render: { visible: false }
-  });
-
-  var rightBlock = Bodies.rectangle(250, 548, 20, 35, {
-    angle: 2 * Math.PI / 2.7,
-
-    isStatic: false,
-    render: { visible: false }
-  });
-
-  var leftWeight = Constraint.create({
-    bodyA: leftFlipper,
-    bodyB: leftBlock,
-    pointA: { x: 18, y: 11 },
-    stiffness: 1,
-    length: 1,
-    render: { visible: false }
-  });
-  var leftWeight2 = Constraint.create({
-    bodyA: leftBlock,
-    bodyB: leftFlipper,
-    pointA: { x: -13, y: 11 },
-    stiffness: 1,
-    length: 1,
-    render: { visible: false }
-  });
-
-  var rightWeight = Constraint.create({
-    bodyA: rightFlipper,
-    bodyB: rightBlock,
-    pointA: { x: -13, y: 11 },
-    stiffness: 1,
-    length: 1,
-    render: { visible: false }
-  });
-  var rightWeight2 = Constraint.create({
-    bodyA: rightBlock,
-    bodyB: rightFlipper,
-    pointA: { x: 18, y: 11 },
-    stiffness: 1,
-    length: 1,
-    render: { visible: false }
-  });
-
-  var leftBuffer = Bodies.circle(190, 605, 50, {
-    label: "buffer",
-    isStatic: true,
-    render: { visible: false }
-  });
-  var leftTopBuffer = Bodies.circle(190, 450, 50, {
-    label: "buffer",
-    isStatic: true,
-    render: { visible: false }
-  });
-  var rightBuffer = Bodies.circle(300, 605, 50, {
-    label: "buffer",
-    isStatic: true,
-    render: { visible: false }
-  });
-  var rightTopBuffer = Bodies.circle(300, 450, 50, {
-    label: "buffer",
-    isStatic: true,
-    render: { visible: false }
-  });
-
-  return [leftFlipper, rightFlipper, leftHinge, rightHinge, leftConstraint, rightConstraint, leftBlock, rightBlock, leftWeight, rightWeight, leftBuffer, leftTopBuffer, rightBuffer, rightTopBuffer, rightWeight2, leftWeight2];
-};
-
-//slings
-var slingShot = exports.slingShot = function slingShot() {
-  var leftSlingShot = Bodies.trapezoid(150, 400, 40, 100, 0.5, {
-    isStatic: true,
-    angle: 5.58505,
-    chamfer: { radius: 10 },
-    render: { fillStyle: COLORS.SLINGSHOT }
-  });
-
-  var leftLaunchPad = Bodies.rectangle(155, 386, 5, 95, {
-    label: "launchpad",
-    isStatic: true,
-    angle: 5.47805,
-    chamfer: { radius: 2 },
-    render: { fillStyle: COLORS.SLINGSHOT }
-  });
-  var rightSlingShot = Bodies.trapezoid(340, 400, 40, 100, 0.5, {
-    isStatic: true,
-    angle: 0.698132,
-    chamfer: { radius: 10 },
-    render: { fillStyle: COLORS.SLINGSHOT }
-  });
-  var rightLauchPad = Bodies.rectangle(335, 386, 5, 95, {
-    label: "launchpad",
-    isStatic: true,
-    angle: 0.810132,
-    chamfer: { radius: 2 },
-    render: { fillStyle: COLORS.SLINGSHOT }
-  });
-
-  return [leftSlingShot, rightSlingShot, leftLaunchPad, rightLauchPad];
-};
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _matterJs = __webpack_require__(4);
-
-var _matterJs2 = _interopRequireDefault(_matterJs);
-
-var _playfield = __webpack_require__(0);
-
-var _ball = __webpack_require__(5);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Engine = _matterJs2.default.Engine,
-    Render = _matterJs2.default.Render,
-    World = _matterJs2.default.World,
-    Bodies = _matterJs2.default.Bodies,
-    Constraint = _matterJs2.default.Constraint;
-
-var engine = void 0;
-var world = void 0;
-var leftFlipper = void 0;
-var rightFlipper = void 0;
-var leftFlipped = false;
-var rightFlipped = false;
-var bufferGroup = _matterJs2.default.Body.nextGroup(false);
-var score = void 0;
-var inPlay = void 0;
-var ballCount = void 0;
-
-function setup() {
-  engine = Engine.create();
-
-  var render = Render.create({
-    canvas: document.getElementById("playfield"),
-
-    element: document.body,
-    engine: engine,
-    options: {
-      width: 550,
-      height: 650,
-      wireframes: false
-    }
-  });
-
-  world = engine.world;
-  world.gravity.y = 0.8;
-
-  var playfield = [(0, _playfield.bumpers)(), (0, _playfield.walls)(), (0, _playfield.flippers)(), (0, _ball.ball)(), (0, _playfield.slingShot)()];
-
-  World.add(engine.world, playfield.reduce(function (prev, curr) {
-    return prev.concat(curr);
-  }));
-
-  leftFlipper = engine.world.bodies.filter(function (body) {
-    return body.label === "leftFlipper";
-  })[0];
-  rightFlipper = engine.world.bodies.filter(function (body) {
-    return body.label === "rightFlipper";
-  })[0];
-  var buffers = engine.world.bodies.filter(function (body) {
-    return body.label === "buffer";
-  });
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = buffers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var buffer = _step.value;
-
-      buffer.collisionFilter = { group: bufferGroup };
-      // buffer.collisionFilter = {group: flipperGroup}
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  leftFlipper.collisionFilter = {
-    group: bufferGroup,
-    category: 4294967295,
-    mask: 2
-  };
-  rightFlipper.collisionFilter = {
-    group: bufferGroup,
-    category: 4294967295,
-    mask: 2
-  };
-  inPlay = false;
-
-  Engine.run(engine);
-  Render.run(render);
-}
-
-function fireFlipper(e) {
-  var keyCode = e.keyCode;
-  if (keyCode === 37 && leftFlipper.isSleeping === false && leftFlipped === false) {
-    leftFlipped = true;
-    _matterJs2.default.Body.setAngularVelocity(leftFlipper, -1);
-  } else if (keyCode === 39 && rightFlipper.isSleeping === false && rightFlipped === false) {
-    rightFlipped = true;
-    _matterJs2.default.Body.setAngularVelocity(rightFlipper, 1);
-  }
-}
-
-function flipperCommand() {
-  document.addEventListener("keydown", function keyDown(e) {
-    fireFlipper(e);
-  });
-  document.addEventListener("keyup", function keyUp(e) {
-    releaseFlipper(e);
-  });
-}
-
-function releaseFlipper(e) {
-  var keyCode = e.keyCode;
-  if (keyCode === 37) {
-    leftFlipped = false;
-    leftFlipper.isSleeping = false;
-  } else if (keyCode === 39) {
-    rightFlipped = false;
-    rightFlipper.isSleeping = false;
-  }
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  setup();
-  flipperCommand();
-});
-
-/***/ }),
-/* 2 */,
-/* 3 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var require;var require;/**
@@ -10897,10 +10432,10 @@ var Vector = _dereq_('../geometry/Vector');
 },{"../body/Composite":2,"../core/Common":14,"../core/Events":16,"../geometry/Bounds":26,"../geometry/Vector":28}]},{},[30])(30)
 });
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 5 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10911,7 +10446,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ball = undefined;
 
-var _matterJs = __webpack_require__(4);
+var _matterJs = __webpack_require__(0);
 
 var _matterJs2 = _interopRequireDefault(_matterJs);
 
@@ -10923,6 +10458,470 @@ var ball = exports.ball = function ball() {
   var playBall = Bodies.circle(100, 0, 15, 80); //ball
   return playBall;
 };
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.slingShot = exports.flippers = exports.walls = exports.bumpers = undefined;
+
+var _matterJs = __webpack_require__(0);
+
+var _matterJs2 = _interopRequireDefault(_matterJs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Bodies = _matterJs2.default.Bodies;
+var Constraint = _matterJs2.default.Constraint;
+var bufferGroup = _matterJs2.default.Body.nextGroup(true);
+
+var COLORS = {
+  BUMPERS: "#DFFF00",
+  WALLS: "#FF00EF",
+  THORN: "#4A412A",
+  SLINGSHOT: "#F50"
+};
+
+//bumpers
+var bumpers = exports.bumpers = function bumpers() {
+  var bumper1 = Bodies.circle(255, 125, 30, {
+    isStatic: true,
+    render: { fillStyle: COLORS.BUMPERS }
+  });
+  var bumper2 = Bodies.circle(180, 200, 30, {
+    isStatic: true,
+    render: { fillStyle: COLORS.BUMPERS }
+  });
+  var bumper3 = Bodies.circle(325, 200, 30, {
+    isStatic: true,
+    render: { fillStyle: COLORS.BUMPERS }
+  });
+  var bumper4 = Bodies.circle(255, 270, 30, {
+    isStatic: true,
+    render: { fillStyle: COLORS.BUMPERS }
+  });
+  return [bumper1, bumper2, bumper3, bumper4];
+};
+
+//walls and lanes
+var walls = exports.walls = function walls() {
+  var leftWall = Bodies.rectangle(0, 325, 650, 20, {
+    angle: Math.PI / 2,
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+
+  var rightWall = Bodies.rectangle(550, 325, 650, 20, {
+    angle: Math.PI / 2,
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+  var ceiling = Bodies.rectangle(275, 0, 550, 20, {
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+
+  var plungeLane = Bodies.rectangle(490, 455, 600, 20, {
+    //change when you build plunger
+    angle: Math.PI / 2,
+    chamfer: { radius: 10 },
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+
+  var baseLeft = Bodies.rectangle(90, 560, 220, 20, {
+    angle: Math.PI / 6,
+    chamfer: { radius: 10 },
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+
+  var baseRight = Bodies.rectangle(400, 560, 220, 20, {
+    angle: 5 * Math.PI / 6,
+    chamfer: { radius: 10 },
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+
+  var leftDiag = Bodies.rectangle(100, 0, 350, 200, {
+    angle: 5 * Math.PI / 6,
+    chamfer: { radius: 10 },
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+
+  var rightDiag = Bodies.rectangle(420, 0, 400, 200, {
+    angle: Math.PI / 6,
+    chamfer: { radius: 10 },
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+
+  var leftFlipperWallSlant = Bodies.rectangle(110, 490, 110, 20, {
+    angle: Math.PI / 6,
+    chamfer: { radius: 10 },
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+  var leftFlipperWallVert = Bodies.rectangle(63, 415, 120, 20, {
+    angle: Math.PI / 2,
+    chamfer: { radius: 10 },
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+
+  var leftThorn = Bodies.trapezoid(10, 280, 50, 50, 0.5, {
+    isStatic: true,
+    angle: Math.PI / 2,
+    chamfer: { radius: 10 },
+    render: { fillStyle: COLORS.THORN }
+  });
+
+  var rightFlipperWallSlant = Bodies.rectangle(385, 495, 120, 20, {
+    angle: 5 * Math.PI / 6,
+    chamfer: { radius: 10 },
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+  var rightFlipperWallVert = Bodies.rectangle(435, 415, 120, 20, {
+    angle: Math.PI / 2,
+    chamfer: { radius: 10 },
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+
+  var rightThorn = Bodies.trapezoid(475, 280, 50, 50, 0.5, {
+    isStatic: true,
+    angle: 3 * Math.PI / 2,
+    chamfer: { radius: 10 },
+    render: { fillStyle: COLORS.THORN }
+  });
+  return [rightThorn, rightFlipperWallVert, rightFlipperWallSlant, leftThorn, leftFlipperWallVert, leftFlipperWallSlant, rightDiag, leftDiag, baseRight, baseLeft, ceiling, plungeLane, rightWall, leftWall];
+};
+
+//flippers
+var flippers = exports.flippers = function flippers() {
+  var leftFlipper = Bodies.trapezoid(190, 540, 25, 80, 0.25, {
+    label: "leftFlipper",
+    angle: 2 * Math.PI / 3,
+    chamfer: { radius: 10 },
+    isSleeping: false
+  });
+  var rightFlipper = Bodies.trapezoid(300, 540, 25, 80, 0.25, {
+    label: "rightFlipper",
+    angle: 4 * Math.PI / 3,
+    chamfer: { radius: 10 },
+    isSleeping: false
+  });
+  var rightHinge = Bodies.circle(318, 529, 5, {
+    isStatic: true,
+    render: { fillStyle: "orange" }
+  });
+
+  var leftHinge = Bodies.circle(172, 529, 5, {
+    isStatic: true,
+    render: { fillStyle: "green" }
+  });
+
+  var leftConstraint = Constraint.create({
+    bodyA: leftFlipper,
+    bodyB: leftHinge,
+    pointA: { x: -19.6, y: -11 },
+    stiffness: 0,
+    length: 0,
+    render: { visable: false }
+  });
+  var rightConstraint = Constraint.create({
+    bodyA: rightFlipper,
+    bodyB: rightHinge,
+    pointA: { x: 19.6, y: -11 },
+    stiffness: 0,
+    length: 0,
+    render: { visable: false }
+  });
+
+  var leftBlock = Bodies.rectangle(100, 420, 20, 35, {
+    angle: 2 * Math.PI / 7.5,
+
+    isStatic: false,
+    render: { visible: false }
+  });
+
+  var rightBlock = Bodies.rectangle(250, 548, 20, 35, {
+    angle: 2 * Math.PI / 2.7,
+
+    isStatic: false,
+    render: { visible: false }
+  });
+
+  var leftWeight = Constraint.create({
+    bodyA: leftFlipper,
+    bodyB: leftBlock,
+    pointA: { x: 18, y: 11 },
+    stiffness: 1,
+    length: 1,
+    render: { visible: false }
+  });
+  var leftWeight2 = Constraint.create({
+    bodyA: leftBlock,
+    bodyB: leftFlipper,
+    pointA: { x: -13, y: 11 },
+    stiffness: 1,
+    length: 1,
+    render: { visible: false }
+  });
+
+  var rightWeight = Constraint.create({
+    bodyA: rightFlipper,
+    bodyB: rightBlock,
+    pointA: { x: -13, y: 11 },
+    stiffness: 1,
+    length: 1,
+    render: { visible: false }
+  });
+  var rightWeight2 = Constraint.create({
+    bodyA: rightBlock,
+    bodyB: rightFlipper,
+    pointA: { x: 18, y: 11 },
+    stiffness: 1,
+    length: 1,
+    render: { visible: false }
+  });
+
+  var leftBuffer = Bodies.circle(190, 605, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false }
+  });
+  var leftTopBuffer = Bodies.circle(190, 450, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false }
+  });
+  var rightBuffer = Bodies.circle(300, 605, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false }
+  });
+  var rightTopBuffer = Bodies.circle(300, 450, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false }
+  });
+
+  return [leftFlipper, rightFlipper, leftHinge, rightHinge, leftConstraint, rightConstraint, leftBlock, rightBlock, leftWeight, rightWeight, leftBuffer, leftTopBuffer, rightBuffer, rightTopBuffer, rightWeight2, leftWeight2];
+};
+
+//slings
+var slingShot = exports.slingShot = function slingShot() {
+  var leftSlingShot = Bodies.trapezoid(150, 400, 40, 100, 0.5, {
+    isStatic: true,
+    angle: 5.58505,
+    chamfer: { radius: 10 },
+    render: { fillStyle: COLORS.SLINGSHOT }
+  });
+
+  var leftLaunchPad = Bodies.rectangle(155, 386, 5, 95, {
+    label: "launchpad",
+    isStatic: true,
+    angle: 5.47805,
+    chamfer: { radius: 2 },
+    render: { fillStyle: COLORS.SLINGSHOT }
+  });
+  var rightSlingShot = Bodies.trapezoid(340, 400, 40, 100, 0.5, {
+    isStatic: true,
+    angle: 0.698132,
+    chamfer: { radius: 10 },
+    render: { fillStyle: COLORS.SLINGSHOT }
+  });
+  var rightLauchPad = Bodies.rectangle(335, 386, 5, 95, {
+    label: "launchpad",
+    isStatic: true,
+    angle: 0.810132,
+    chamfer: { radius: 2 },
+    render: { fillStyle: COLORS.SLINGSHOT }
+  });
+
+  return [leftSlingShot, rightSlingShot, leftLaunchPad, rightLauchPad];
+};
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _matterJs = __webpack_require__(0);
+
+var _matterJs2 = _interopRequireDefault(_matterJs);
+
+var _playfield = __webpack_require__(2);
+
+var _ball = __webpack_require__(1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Engine = _matterJs2.default.Engine,
+    Render = _matterJs2.default.Render,
+    World = _matterJs2.default.World,
+    Bodies = _matterJs2.default.Bodies,
+    Constraint = _matterJs2.default.Constraint;
+
+var engine = void 0;
+var world = void 0;
+var leftFlipper = void 0;
+var rightFlipper = void 0;
+var leftFlipped = false;
+var rightFlipped = false;
+var bufferGroup = _matterJs2.default.Body.nextGroup(false);
+var score = void 0;
+var inPlay = void 0;
+var ballCount = void 0;
+
+function setup() {
+  engine = Engine.create();
+
+  var render = Render.create({
+    canvas: document.querySelector("#playfield"),
+
+    element: document.body,
+    engine: engine,
+    options: {
+      width: 550,
+      height: 650,
+      wireframes: false
+    }
+  });
+
+  world = engine.world;
+  world.gravity.y = 0.8;
+
+  var playfield = [(0, _playfield.bumpers)(), (0, _playfield.walls)(), (0, _playfield.flippers)(), (0, _ball.ball)(), (0, _playfield.slingShot)()];
+
+  World.add(engine.world, playfield.reduce(function (prev, curr) {
+    return prev.concat(curr);
+  }));
+
+  leftFlipper = engine.world.bodies.filter(function (body) {
+    return body.label === "leftFlipper";
+  })[0];
+  rightFlipper = engine.world.bodies.filter(function (body) {
+    return body.label === "rightFlipper";
+  })[0];
+  var buffers = engine.world.bodies.filter(function (body) {
+    return body.label === "buffer";
+  });
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = buffers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var buffer = _step.value;
+
+      buffer.collisionFilter = { group: bufferGroup };
+      // buffer.collisionFilter = {group: flipperGroup}
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  leftFlipper.collisionFilter = {
+    group: bufferGroup,
+    category: 4294967295,
+    mask: 2
+  };
+  rightFlipper.collisionFilter = {
+    group: bufferGroup,
+    category: 4294967295,
+    mask: 2
+  };
+  inPlay = false;
+
+  Engine.run(engine);
+  Render.run(render);
+}
+
+function fireFlipper(e) {
+  var keyCode = e.keyCode;
+  if (keyCode === 37 && leftFlipper.isSleeping === false && leftFlipped === false) {
+    leftFlipped = true;
+    _matterJs2.default.Body.setAngularVelocity(leftFlipper, -1);
+  } else if (keyCode === 39 && rightFlipper.isSleeping === false && rightFlipped === false) {
+    rightFlipped = true;
+    _matterJs2.default.Body.setAngularVelocity(rightFlipper, 1);
+  }
+}
+
+function flipperCommand() {
+  document.addEventListener("keydown", function keyDown(e) {
+    fireFlipper(e);
+  });
+  document.addEventListener("keyup", function keyUp(e) {
+    releaseFlipper(e);
+  });
+}
+
+function releaseFlipper(e) {
+  var keyCode = e.keyCode;
+  if (keyCode === 37) {
+    leftFlipped = false;
+    leftFlipper.isSleeping = false;
+  } else if (keyCode === 39) {
+    rightFlipped = false;
+    rightFlipper.isSleeping = false;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  setup();
+  flipperCommand();
+});
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
 
 /***/ })
 /******/ ]);
