@@ -7,7 +7,7 @@ import {
   slingShot,
   plungeLane
 } from "./app/assets/javascripts/playfield";
-// import { ball } from "./app/assets/javascripts/ball";
+ // import { ball } from "./app/assets/javascripts/ball";
 
 let Engine = Matter.Engine,
   Render = Matter.Render,
@@ -26,6 +26,8 @@ const bufferGroup = Matter.Body.nextGroup(false);
 let score;
 let inPlay;
 let ballCount;
+  let listening = false;
+
 
 function setup() {
   engine = Engine.create();
@@ -46,7 +48,7 @@ function setup() {
   world = engine.world;
   world.gravity.y = 0.8;
 
-   const playfield = [bumpers(), walls(), flippers(), ball(), slingShot(), plungeLane()];
+    const playfield = [bumpers(), walls(), flippers(),  slingShot(), plungeLane()];
 
   World.add(
     engine.world,
@@ -64,7 +66,7 @@ function setup() {
 
   score = 0;
   document.getElementById("score").innerHTML = score;
-  document.getElementById("high-score").innerHTML = highScore;
+  // document.getElementById("high-score").innerHTML = highScore;
   inPlay = false;
 
   let buffers = engine.world.bodies.filter((body) => body.label === "buffer");
@@ -110,6 +112,7 @@ function launchAction(e) {
     (inPlay === false && keyCode === 38 && ballCount > 0) ||
     (inPlay === false && keyCode === 32 && ballCount > 0)
   ) {
+   
     openPlunge();
     let pinball = createBall();
     pinball.collisionFilter = { mask: 4294967295, category: 2, group: 0 };
@@ -164,13 +167,13 @@ function ballOut() {
     let body;
     let ballVelocity;
 
-    var pairs = event.pairs;
+    let pairs = event.pairs;
     ballVelocity = event.pairs[0].bodyB.velocity;
     let maxVelocity = 50;
 
 
     if (event.pairs[0].bodyB.id === 27 || event.pairs[0].bodyB.id === 29) {
-      freezePaddle(event.pairs[0].bodyA);
+      freezeFlipper(event.pairs[0].bodyA);
     } else if (event.pairs[0].bodyA.label === "bumper") {
       updateScore(10);
       Matter.Body.setVelocity(event.pairs[0].bodyB, {
@@ -195,6 +198,10 @@ function ballOut() {
       }, 100);
     }
   });
+}
+
+function freezeFlipper(flipper) {
+  Matter.Sleeping.set(flipper, true);
 }
 
 function updateScore(points) {
@@ -275,10 +282,10 @@ function newGame() {
       launchAction(e);
     });
     document.removeEventListener("keydown", function keyDown(e) {
-      firePaddle(e);
+      fireFlipper(e);
     });
     document.removeEventListener("keyup", function keyUp(e) {
-      releasePaddle(e);
+      releaseFlipper(e);
     });
     document
       .getElementById("score")

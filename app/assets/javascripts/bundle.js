@@ -10435,31 +10435,7 @@ var Vector = _dereq_('../geometry/Vector');
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ball = undefined;
-
-var _matterJs = __webpack_require__(0);
-
-var _matterJs2 = _interopRequireDefault(_matterJs);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Bodies = _matterJs2.default.Bodies;
-
-var ball = exports.ball = function ball() {
-  var playBall = Bodies.circle(100, 0, 15, 80); //ball
-  return playBall;
-};
-
-/***/ }),
+/* 1 */,
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10469,7 +10445,7 @@ var ball = exports.ball = function ball() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.slingShot = exports.flippers = exports.walls = exports.bumpers = undefined;
+exports.slingShot = exports.flippers = exports.walls = exports.plungeLane = exports.bumpers = undefined;
 
 var _matterJs = __webpack_require__(0);
 
@@ -10491,22 +10467,37 @@ var COLORS = {
 //bumpers
 var bumpers = exports.bumpers = function bumpers() {
   var bumper1 = Bodies.circle(255, 125, 30, {
+    label: "bumper",
     isStatic: true,
     render: { fillStyle: COLORS.BUMPERS }
   });
   var bumper2 = Bodies.circle(180, 200, 30, {
+    label: "bumper",
     isStatic: true,
     render: { fillStyle: COLORS.BUMPERS }
   });
   var bumper3 = Bodies.circle(325, 200, 30, {
+    label: "bumper",
     isStatic: true,
     render: { fillStyle: COLORS.BUMPERS }
   });
   var bumper4 = Bodies.circle(255, 270, 30, {
+    label: "bumper",
     isStatic: true,
     render: { fillStyle: COLORS.BUMPERS }
   });
   return [bumper1, bumper2, bumper3, bumper4];
+};
+var plungeLane = exports.plungeLane = function plungeLane() {
+  var hatch = Bodies.rectangle(490, 210, 130, 20, {
+    label: "plungeLane",
+    angle: Math.PI / 2,
+    chamfer: { radius: 10 },
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+
+  return [hatch];
 };
 
 //walls and lanes
@@ -10523,14 +10514,6 @@ var walls = exports.walls = function walls() {
     render: { fillStyle: COLORS.WALLS }
   });
   var ceiling = Bodies.rectangle(275, 0, 550, 20, {
-    isStatic: true,
-    render: { fillStyle: COLORS.WALLS }
-  });
-
-  var plungeLane = Bodies.rectangle(490, 455, 600, 20, {
-    //change when you build plunger
-    angle: Math.PI / 2,
-    chamfer: { radius: 10 },
     isStatic: true,
     render: { fillStyle: COLORS.WALLS }
   });
@@ -10596,13 +10579,20 @@ var walls = exports.walls = function walls() {
     render: { fillStyle: COLORS.WALLS }
   });
 
-  var rightThorn = Bodies.trapezoid(475, 280, 50, 50, 0.5, {
+  var rightThorn = Bodies.trapezoid(458, 280, 50, 50, 0.5, {
     isStatic: true,
     angle: 3 * Math.PI / 2,
     chamfer: { radius: 10 },
     render: { fillStyle: COLORS.THORN }
   });
-  return [rightThorn, rightFlipperWallVert, rightFlipperWallSlant, leftThorn, leftFlipperWallVert, leftFlipperWallSlant, rightDiag, leftDiag, baseRight, baseLeft, ceiling, plungeLane, rightWall, leftWall];
+  var ballChute = Bodies.rectangle(490, 455, 400, 20, {
+    angle: Math.PI / 2,
+    chamfer: { radius: 10 },
+    isStatic: true,
+    render: { fillStyle: COLORS.WALLS }
+  });
+
+  return [ballChute, rightThorn, rightFlipperWallVert, rightFlipperWallSlant, leftThorn, leftFlipperWallVert, leftFlipperWallSlant, rightDiag, leftDiag, baseRight, baseLeft, ceiling, rightWall, leftWall];
 };
 
 //flippers
@@ -10764,9 +10754,9 @@ var _matterJs2 = _interopRequireDefault(_matterJs);
 
 var _playfield = __webpack_require__(2);
 
-var _ball = __webpack_require__(1);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import { ball } from "./app/assets/javascripts/ball";
 
 var Engine = _matterJs2.default.Engine,
     Render = _matterJs2.default.Render,
@@ -10776,6 +10766,7 @@ var Engine = _matterJs2.default.Engine,
 
 var engine = void 0;
 var world = void 0;
+var plungeOpen = true;
 var leftFlipper = void 0;
 var rightFlipper = void 0;
 var leftFlipped = false;
@@ -10784,6 +10775,7 @@ var bufferGroup = _matterJs2.default.Body.nextGroup(false);
 var score = void 0;
 var inPlay = void 0;
 var ballCount = void 0;
+var listening = false;
 
 function setup() {
   engine = Engine.create();
@@ -10799,11 +10791,12 @@ function setup() {
       wireframes: false
     }
   });
-
+  ballCount = 3;
+  document.getElementById("ball-count").innerHTML = ballCount;
   world = engine.world;
   world.gravity.y = 0.8;
 
-  var playfield = [(0, _playfield.bumpers)(), (0, _playfield.walls)(), (0, _playfield.flippers)(), (0, _ball.ball)(), (0, _playfield.slingShot)()];
+  var playfield = [(0, _playfield.bumpers)(), (0, _playfield.walls)(), (0, _playfield.flippers)(), (0, _playfield.slingShot)(), (0, _playfield.plungeLane)()];
 
   World.add(engine.world, playfield.reduce(function (prev, curr) {
     return prev.concat(curr);
@@ -10815,6 +10808,12 @@ function setup() {
   rightFlipper = engine.world.bodies.filter(function (body) {
     return body.label === "rightFlipper";
   })[0];
+
+  score = 0;
+  document.getElementById("score").innerHTML = score;
+  // document.getElementById("high-score").innerHTML = highScore;
+  inPlay = false;
+
   var buffers = engine.world.bodies.filter(function (body) {
     return body.label === "buffer";
   });
@@ -10854,10 +10853,143 @@ function setup() {
     category: 4294967295,
     mask: 2
   };
-  inPlay = false;
 
   Engine.run(engine);
   Render.run(render);
+}
+
+function openPlunge() {
+  var hatch = engine.world.bodies.filter(function (body) {
+    return body.label === "plungeLane";
+  })[0];
+  _matterJs2.default.Body.translate(hatch, { x: 0, y: 100 });
+
+  plungeOpen = false;
+}
+
+function closePlunge() {
+  var hatch = engine.world.bodies.filter(function (body) {
+    return body.label === "plungeLane";
+  })[0];
+  _matterJs2.default.Body.translate(hatch, { x: 0, y: -100 });
+  plungeOpen = true;
+}
+
+function launchAction(e) {
+  var keyCode = e.keyCode;
+  if (inPlay === false && keyCode === 38 && ballCount > 0 || inPlay === false && keyCode === 32 && ballCount > 0) {
+
+    openPlunge();
+    var pinball = createBall();
+    pinball.collisionFilter = { mask: 4294967295, category: 2, group: 0 };
+    pinball.label = "pinball";
+    World.add(engine.world, pinball);
+    _matterJs2.default.Body.setPosition(pinball, { x: 500, y: 650 });
+    _matterJs2.default.Body.setVelocity(pinball, {
+      x: 0,
+      y: Math.floor(Math.random() * -35) - 25
+    });
+    inPlay = true;
+  }
+}
+
+function launch() {
+  window.addEventListener("keydown", function keyDown(e) {
+    launchAction(e);
+  });
+}
+
+function createBall() {
+  var ball = Bodies.circle(0, 0, 15);
+  ball.label = "pinball";
+  return ball;
+}
+
+function findPinball(obj) {
+  if (obj.label === "pinball") return true;
+}
+
+function ballOut() {
+  if (inPlay) {
+    listening = true;
+    var pinball = engine.world.bodies.filter(findPinball);
+    var ballTracker = setInterval(function () {
+      if (pinball[0].position.y > 650) {
+        _matterJs2.default.Composite.remove(engine.world, pinball);
+        clearInterval(ballTracker);
+        inPlay = false;
+        ballCount -= 1;
+        var displayBallCount = document.getElementById("ball-count");
+        displayBallCount.classList.add("lose-ball");
+        displayBallCount.innerHTML = ballCount;
+        displayBallCount.addEventListener("transitionend", removeTransition);
+        listening = false;
+      } else if (pinball[0].position.x < 490 && plungeOpen === false) {
+        closePlunge();
+      }
+    }, 250);
+  }
+  _matterJs2.default.Events.on(engine, "collisionStart", function (event) {
+    var body = void 0;
+    var ballVelocity = void 0;
+
+    var pairs = event.pairs;
+    ballVelocity = event.pairs[0].bodyB.velocity;
+    var maxVelocity = 50;
+
+    if (event.pairs[0].bodyB.id === 27 || event.pairs[0].bodyB.id === 29) {
+      freezeFlipper(event.pairs[0].bodyA);
+    } else if (event.pairs[0].bodyA.label === "bumper") {
+      updateScore(10);
+      _matterJs2.default.Body.setVelocity(event.pairs[0].bodyB, {
+        x: Math.max(Math.min(ballVelocity.x, maxVelocity), -maxVelocity),
+        y: Math.max(Math.min(ballVelocity.y, maxVelocity), -maxVelocity)
+      });
+      body = event.pairs[0].bodyA.render;
+      body.fillStyle = "#B09150";
+      setTimeout(function () {
+        body.fillStyle = "#5C43B5";
+      }, 100);
+    } else if (event.pairs[0].bodyA.label === "launchpad") {
+      updateScore(5);
+      _matterJs2.default.Body.setVelocity(event.pairs[0].bodyB, {
+        x: Math.max(Math.min(ballVelocity.x, maxVelocity), -maxVelocity),
+        y: Math.max(Math.min(ballVelocity.y, maxVelocity), -maxVelocity)
+      });
+      body = event.pairs[0].bodyA.render;
+      body.fillStyle = "#B09150";
+      setTimeout(function () {
+        body.fillStyle = "#A9D2F0";
+      }, 100);
+    }
+  });
+}
+
+function freezeFlipper(flipper) {
+  _matterJs2.default.Sleeping.set(flipper, true);
+}
+
+function updateScore(points) {
+  score += points;
+  var displayScore = document.getElementById("score");
+  var displayHighScore = document.getElementById("high-score");
+  displayScore.classList.add("update");
+
+  displayScore.innerHTML = score;
+  displayScore.addEventListener("transitionend", removeTransition);
+
+  if (score > highScore) {
+    highScore = score;
+    displayHighScore.classList.add("update");
+    displayHighScore.innerHTML = highScore;
+    displayHighScore.addEventListener("transitionend", removeTransition);
+  }
+}
+
+function removeTransition(e) {
+  if (e.propertyName !== "transform") return;
+  this.classList.remove("update");
+  this.classList.remove("lose-ball");
 }
 
 function fireFlipper(e) {
@@ -10889,6 +11021,39 @@ function releaseFlipper(e) {
     rightFlipped = false;
     rightFlipper.isSleeping = false;
   }
+  if (ballCount > 0) {
+    launch();
+    if (listening === false) {
+      ballOut();
+    }
+  } else {
+    newGame();
+  }
+}
+
+function newGame() {
+  if (ballCount === 0) {
+    resetGlobalVariables();
+    window.removeEventListener("keydown", function keyDown(e) {
+      launchAction(e);
+    });
+    document.removeEventListener("keydown", function keyDown(e) {
+      fireFlipper(e);
+    });
+    document.removeEventListener("keyup", function keyUp(e) {
+      releaseFlipper(e);
+    });
+    document.getElementById("score").removeEventListener("transitionend", removeTransition);
+    document.getElementById("high-score").removeEventListener("transitionend", removeTransition);
+    document.getElementById("ball-count").removeEventListener("transitionend", removeTransition);
+    document.getElementById("ball-count").innerHTML = ballCount;
+    updateScore(0);
+  }
+}
+
+function resetGlobalVariables() {
+  score = 0;
+  ballCount = 3;
 }
 
 document.addEventListener("DOMContentLoaded", function () {

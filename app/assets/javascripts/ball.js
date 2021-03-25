@@ -9,7 +9,7 @@ export const launch = function launch() {
     if (keyCode === 38 || keyCode === 32) {
       let pinball = createBall();
       Matter.Body.setPosition(pinball, { x: 525, y: 650 });
-      Matter.Body.setVelocity(pinball, { x: 0, y: 10 });
+      Matter.Body.setVelocity(pinball, { x: 0, y: 30 });
 
       return pinball;
     }
