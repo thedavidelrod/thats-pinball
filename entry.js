@@ -5,9 +5,9 @@ import {
   walls,
   flippers,
   slingShot,
-  plungeLane
+  plungeLane,
 } from "./app/assets/javascripts/playfield";
- // import { ball } from "./app/assets/javascripts/ball";
+// import { ball } from "./app/assets/javascripts/ball";
 
 let Engine = Matter.Engine,
   Render = Matter.Render,
@@ -24,17 +24,18 @@ let leftFlipped = false;
 let rightFlipped = false;
 const bufferGroup = Matter.Body.nextGroup(false);
 let score;
+let highScore = 0;
 let inPlay;
 let ballCount;
-  let listening = false;
+let listening = false;
 
 
 function setup() {
   engine = Engine.create();
 
   let render = Render.create({
-     canvas: document.querySelector("#playfield"),
-    
+    canvas: document.querySelector("#playfield"),
+
     element: document.body,
     engine: engine,
     options: {
@@ -48,7 +49,7 @@ function setup() {
   world = engine.world;
   world.gravity.y = 0.8;
 
-    const playfield = [bumpers(), walls(), flippers(),  slingShot(), plungeLane()];
+  const playfield = [bumpers(), walls(), flippers(), slingShot(), plungeLane()];
 
   World.add(
     engine.world,
@@ -66,7 +67,7 @@ function setup() {
 
   score = 0;
   document.getElementById("score").innerHTML = score;
-  // document.getElementById("high-score").innerHTML = highScore;
+  document.getElementById("high-score").innerHTML = highScore;
   inPlay = false;
 
   let buffers = engine.world.bodies.filter((body) => body.label === "buffer");
@@ -94,7 +95,7 @@ function openPlunge() {
     (body) => body.label === "plungeLane"
   )[0];
   Matter.Body.translate(hatch, { x: 0, y: 100 });
-  
+
   plungeOpen = false;
 }
 
@@ -112,7 +113,6 @@ function launchAction(e) {
     (inPlay === false && keyCode === 38 && ballCount > 0) ||
     (inPlay === false && keyCode === 32 && ballCount > 0)
   ) {
-   
     openPlunge();
     let pinball = createBall();
     pinball.collisionFilter = { mask: 4294967295, category: 2, group: 0 };
@@ -171,7 +171,6 @@ function ballOut() {
     ballVelocity = event.pairs[0].bodyB.velocity;
     let maxVelocity = 50;
 
-
     if (event.pairs[0].bodyB.id === 27 || event.pairs[0].bodyB.id === 29) {
       freezeFlipper(event.pairs[0].bodyA);
     } else if (event.pairs[0].bodyA.label === "bumper") {
@@ -182,7 +181,7 @@ function ballOut() {
       });
       body = event.pairs[0].bodyA.render;
       body.fillStyle = "#B09150";
-      setTimeout(function () {
+      setTimeout( () => {
         body.fillStyle = "#5C43B5";
       }, 100);
     } else if (event.pairs[0].bodyA.label === "launchpad") {
@@ -193,7 +192,7 @@ function ballOut() {
       });
       body = event.pairs[0].bodyA.render;
       body.fillStyle = "#B09150";
-      setTimeout(function () {
+      setTimeout( () => {
         body.fillStyle = "#A9D2F0";
       }, 100);
     }
@@ -264,17 +263,16 @@ function releaseFlipper(e) {
     rightFlipped = false;
     rightFlipper.isSleeping = false;
   }
-   if (ballCount > 0) {
-      launch();
-      if (listening === false) {
-        ballOut();
-      }
-    } else {
-      newGame();
+  if (ballCount > 0) {
+    launch();
+    if (listening === false) {
+      ballOut();
     }
+  } else {
+    newGame();
   }
+}
 
-  
 function newGame() {
   if (ballCount === 0) {
     resetGlobalVariables();
@@ -307,6 +305,6 @@ function resetGlobalVariables() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-   setup();
-   flipperCommand();
+  setup();
+  flipperCommand();
 });

@@ -10481,12 +10481,8 @@ var bumpers = exports.bumpers = function bumpers() {
     isStatic: true,
     render: { fillStyle: COLORS.BUMPERS }
   });
-  var bumper4 = Bodies.circle(255, 270, 30, {
-    label: "bumper",
-    isStatic: true,
-    render: { fillStyle: COLORS.BUMPERS }
-  });
-  return [bumper1, bumper2, bumper3, bumper4];
+
+  return [bumper1, bumper2, bumper3];
 };
 var plungeLane = exports.plungeLane = function plungeLane() {
   var hatch = Bodies.rectangle(490, 210, 130, 20, {
@@ -10563,7 +10559,7 @@ var walls = exports.walls = function walls() {
     isStatic: true,
     angle: Math.PI / 2,
     chamfer: { radius: 10 },
-    render: { fillStyle: COLORS.THORN }
+    render: { fillStyle: COLORS.WALLS }
   });
 
   var rightFlipperWallSlant = Bodies.rectangle(385, 495, 120, 20, {
@@ -10579,11 +10575,11 @@ var walls = exports.walls = function walls() {
     render: { fillStyle: COLORS.WALLS }
   });
 
-  var rightThorn = Bodies.trapezoid(458, 280, 50, 50, 0.5, {
+  var rightThorn = Bodies.trapezoid(475, 280, 50, 50, 0.5, {
     isStatic: true,
     angle: 3 * Math.PI / 2,
     chamfer: { radius: 10 },
-    render: { fillStyle: COLORS.THORN }
+    render: { fillStyle: COLORS.WALLS }
   });
   var ballChute = Bodies.rectangle(490, 455, 400, 20, {
     angle: Math.PI / 2,
@@ -10773,6 +10769,7 @@ var leftFlipped = false;
 var rightFlipped = false;
 var bufferGroup = _matterJs2.default.Body.nextGroup(false);
 var score = void 0;
+var highScore = 0;
 var inPlay = void 0;
 var ballCount = void 0;
 var listening = false;
@@ -10811,7 +10808,7 @@ function setup() {
 
   score = 0;
   document.getElementById("score").innerHTML = score;
-  // document.getElementById("high-score").innerHTML = highScore;
+  document.getElementById("high-score").innerHTML = highScore;
   inPlay = false;
 
   var buffers = engine.world.bodies.filter(function (body) {
@@ -10878,7 +10875,6 @@ function closePlunge() {
 function launchAction(e) {
   var keyCode = e.keyCode;
   if (inPlay === false && keyCode === 38 && ballCount > 0 || inPlay === false && keyCode === 32 && ballCount > 0) {
-
     openPlunge();
     var pinball = createBall();
     pinball.collisionFilter = { mask: 4294967295, category: 2, group: 0 };

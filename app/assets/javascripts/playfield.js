@@ -27,12 +27,8 @@ export const bumpers = function bumpers() {
     isStatic: true,
     render: { fillStyle: COLORS.BUMPERS },
   });
-  let bumper4 = Bodies.circle(255, 270, 30, {
-    label: "bumper",
-    isStatic: true,
-    render: { fillStyle: COLORS.BUMPERS },
-  });
-  return [bumper1, bumper2, bumper3, bumper4];
+  
+  return [bumper1, bumper2, bumper3];
 };
 export const plungeLane = function plungeLane() {
   let hatch = Bodies.rectangle(490, 210, 130, 20, {
@@ -109,7 +105,7 @@ export const walls = function walls() {
     isStatic: true,
     angle: Math.PI / 2,
     chamfer: { radius: 10 },
-    render: { fillStyle: COLORS.THORN },
+    render: { fillStyle: COLORS.WALLS },
   });
 
   let rightFlipperWallSlant = Bodies.rectangle(385, 495, 120, 20, {
@@ -125,11 +121,11 @@ export const walls = function walls() {
     render: { fillStyle: COLORS.WALLS },
   });
 
-  let rightThorn = Bodies.trapezoid(458, 280, 50, 50, 0.5, {
+  let rightThorn = Bodies.trapezoid(475, 280, 50, 50, 0.5, {
     isStatic: true,
     angle: (3 * Math.PI) / 2,
     chamfer: { radius: 10 },
-    render: { fillStyle: COLORS.THORN },
+    render: { fillStyle: COLORS.WALLS },
   });
   let ballChute = Bodies.rectangle(490, 455, 400, 20, {
     angle: Math.PI / 2,
