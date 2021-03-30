@@ -182,7 +182,7 @@ export const flippers = function flippers() {
     pointA: { x: -19.6, y: -11 },
     stiffness: 0,
     length: 0,
-    render: { visable: false },
+    render: { visible: false },
   });
   let rightConstraint = Constraint.create({
     bodyA: rightFlipper,
@@ -190,7 +190,7 @@ export const flippers = function flippers() {
     pointA: { x: 19.6, y: -11 },
     stiffness: 0,
     length: 0,
-    render: { visable: false },
+    render: { visible: false },
   });
 
   let leftBlock = Bodies.rectangle(100, 420, 20, 35, {

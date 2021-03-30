@@ -10620,7 +10620,7 @@ var flippers = exports.flippers = function flippers() {
     pointA: { x: -19.6, y: -11 },
     stiffness: 0,
     length: 0,
-    render: { visable: false }
+    render: { visible: false }
   });
   var rightConstraint = Constraint.create({
     bodyA: rightFlipper,
@@ -10628,7 +10628,7 @@ var flippers = exports.flippers = function flippers() {
     pointA: { x: 19.6, y: -11 },
     stiffness: 0,
     length: 0,
-    render: { visable: false }
+    render: { visible: false }
   });
 
   var leftBlock = Bodies.rectangle(100, 420, 20, 35, {

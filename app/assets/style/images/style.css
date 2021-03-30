@@ -28,19 +28,30 @@ canvas {
 
 .fa-github:before {
     content: "\f09b";
-    color: chartreuse;
+    color: black;
+    background: white;
+    /* border-top-left-radius: 72px; */
+    /* border-top-right-radius: 64px; */
+    /* border-bottom-left-radius: 64px; */
+    /* border-bottom-right-radius: 68px; */
+    border-radius: 20px;
 }
+
 
 
 .fa-linkedin-square:before {
     content: "\f08c";
-    color: chartreuse;
+    background: white;
+    color: black;
+    border-radius: 6px;
 }
 
 .fa-angellist:before {
     content: "\f209";
-    color: chartreuse;
-}
+    color: black;
+    background: white;
+    border-radius: 15px;    
+} 
 
 
 
