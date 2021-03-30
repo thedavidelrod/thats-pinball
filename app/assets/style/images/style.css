@@ -4,6 +4,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+.body {
+  display: flex;  
+}
 
 img {
   order: 0;
@@ -12,6 +15,7 @@ canvas {
   border-radius: 8px;
   box-shadow: 0 2px 12px -5px rgba(12, 12, 12, 0.1);
   order: 1;
+
 }
 
 .instructions {
@@ -19,18 +23,7 @@ canvas {
   order: 2;
 }
 
-.scorers-table {
-  height: 650px;
-  width: 300px;
-  background-color: #C4CFD4;
-  color: #377391;
-  font-family: sans-serif;
-  font-size: 25px;
-  top: 0;
-  margin-left: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px -5px rgba(0,0,0,.1);
-}
+
 
 .scorers-table {
   height: 650px;
@@ -39,15 +32,19 @@ canvas {
   color: #377391;
   font-family: sans-serif;
   font-size: 25px;
-  top: 0;
+  top: 8px;
   margin-left: 25px;
   border-radius: 8px;
   box-shadow: 0 2px 12px -5px rgba(0,0,0,.1);
+  position: absolute;
+  right: 0px;
+  margin-right: 25px
 }
 
 .scores {
   display: flex;
   justify-content: space-between;
+  
 }
 
 .update {
@@ -92,14 +89,13 @@ canvas {
 .title {
   display: block;
   text-align: center;
-  color: var(--main-lt-blue);
   font: 20px verdana, sans-serif;
 }
 
 html {
-  background-image: url('../images/logo-large.png');
+  background-image: url('../images/pinball-background.jpg');
   background-repeat: no-repeat;
-  background-size: auto;
+  background-size: cover;
 }
 
 .icons {
