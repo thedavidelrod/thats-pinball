@@ -26,6 +26,23 @@ canvas {
 }
 
 
+.fa-github:before {
+    content: "\f09b";
+    color: chartreuse;
+}
+
+
+.fa-linkedin-square:before {
+    content: "\f08c";
+    color: chartreuse;
+}
+
+.fa-angellist:before {
+    content: "\f209";
+    color: chartreuse;
+}
+
+
 
 .scorers-table {
   height: 650px;
