@@ -2,17 +2,27 @@
 <html lang="en">
   <head>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112393389-1"></script>
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <script src="https://kit.fontawesome.com/e9f5bd8861.js" crossorigin="anonymous"></script>
+
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-112393389-1"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      gtag('config', 'UA-112393389-1');
+      gtag("config", "UA-112393389-1");
     </script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
 
     <meta property="og:title" content="That's Pinball!" />
     <meta
@@ -45,39 +55,67 @@
     />
   </head>
   <body>
-   
-   <img src="app/assets/style/images/128edd5de81fc55d.png" alt="" />
+    <img src="app/assets/style/images/128edd5de81fc55d.png" alt="" />
 
     <div class="body">
-                  
-
-    <div class="icons">
-      <li><a href="https://github.com/thedavidelrod" i class="fa fa-github fa-3x" aria-hidden="true"></a></li>
-      <li><a href="https://www.linkedin.com/in/thedavidelrod/" i class="fa fa-linkedin-square fa-3x" aria-hidden="true"></a></li>
-      <li><a href="https://angel.co/david-elrod" i class="fa fa-angellist fa-3x" aria-hidden="true"></a></li>
-    </div>
-    <div class='playfield'>
-  <canvas id="playfield"></canvas>
-  </div>
+      <div class="icons">
+        <li>
+          <a
+            href="https://github.com/thedavidelrod"
+            i
+            class="fa fa-github fa-3x"
+            aria-hidden="true"
+          ></a>
+        </li>
+        <li>
+          <a
+            href="https://www.linkedin.com/in/thedavidelrod/"
+            i
+            class="fa fa-linkedin-square fa-3x"
+            aria-hidden="true"
+          ></a>
+        </li>
+        <li>
+          <a
+            href="https://angel.co/david-elrod"
+            i
+            class="fa fa-angellist fa-3x"
+            aria-hidden="true"
+          ></a>
+        </li>
+      </div>
+      <div class="music-controls">
+    <i id='music-mute' class="fas fa-volume-up pointer"></i>
+    <i id='music-unmute' class="fas fa-volume-mute pointer hidden"></i>
+  </div> 
+      <div class="playfield">
+        <canvas id="playfield"></canvas>
+      </div>
       <div class="scorers-table">
-    <div class="stats-div">
-      <div class="scores">
-        <span>Score</span>
-        <span>High Score</span>
-      </div>
-      <div class="score-nums">
-        <span id="score"></span>  
-        <span id="high-score"></span>
-      </div>
-      <span>Balls</span>
-      <span id="ball-count"></span>
-    
+        <div class="stats-div">
+          <div class="scores">
+            <span>Score</span>
+            <span>High Score</span>
+          </div>
+          <div class="score-nums">
+            <span id="score"></span>
+            <span id="high-score"></span>
+          </div>
+          <span>Balls</span>
+          <span id="ball-count"></span>
 
-      <div class="instructions">Press the ⬅️ ➡️ buttons to flip. Press the 🔼 key to launch the ball.
-</div>    
+          <div class="instructions">
+            Press the ⬅️ ➡️ buttons to flip. Press the 🔼 key to launch the
+            ball.
+          </div>
+        </div>
       </div>
     </div>
+    <audio src="app/assets/style/theme.mp3" id="music" loop autoplay></audio>
 
-    </div>
+    <script>
+      var music = document.getElementById("music");
+      music.volume = 0.1;
+    </script>
   </body>
 </html>
