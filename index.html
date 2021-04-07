@@ -84,10 +84,10 @@
           ></a>
         </li>
       </div>
-      <div class="music-controls">
+      <!-- <div class="music-controls">
     <i id='music-mute' class="fas fa-volume-up pointer"></i>
     <i id='music-unmute' class="fas fa-volume-mute pointer hidden"></i>
-  </div> 
+  </div>  -->
       <div class="playfield">
         <canvas id="playfield"></canvas>
       </div>
@@ -111,7 +111,11 @@
         </div>
       </div>
     </div>
-    <audio src="app/assets/style/theme.mp3" id="music" loop autoplay></audio>
+    <audio src="app/assets/style/theme.mp3" id="music" 
+    loop 
+    autoplay
+    >
+  </audio>
 
     <script>
       var music = document.getElementById("music");

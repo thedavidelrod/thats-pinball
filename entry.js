@@ -28,7 +28,8 @@ let highScore = 0;
 let inPlay;
 let ballCount;
 let listening = false;
-
+const musicPlay = document.getElementById("music-unmute");
+const musicPause = document.getElementById("music-mute");
 
 function setup() {
   engine = Engine.create();
@@ -303,6 +304,8 @@ function resetGlobalVariables() {
   score = 0;
   ballCount = 3;
 }
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
   setup();

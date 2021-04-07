@@ -10772,6 +10772,8 @@ var highScore = 0;
 var inPlay = void 0;
 var ballCount = void 0;
 var listening = false;
+var musicPlay = document.getElementById("music-unmute");
+var musicPause = document.getElementById("music-mute");
 
 function setup() {
   engine = Engine.create();
