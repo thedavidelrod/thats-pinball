@@ -16,7 +16,7 @@ if the key was held down. This was fixed with a boolean that is toggled by flipp
 from over rotating. 
 
 
-##Ball Monitoring
+## Ball Monitoring
 
 One of the significant challenges that I faced in this project was managing multiple asynchronous event listeners to keep track of the state of the pinball. It was 
 the single threaded nature of JavaScript that made this a challenge. I ultimately solved this by appending the necessary functions onto a keyup event listener that 
