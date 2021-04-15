@@ -22,3 +22,50 @@ One of the significant challenges that I faced in this project was managing mult
 the single threaded nature of JavaScript that made this a challenge. I ultimately solved this by appending the necessary functions onto a keyup event listener that 
 I was already using to monitor key commands controlling paddle movement. By using a boolean variable along with my ball tracking method, I was able to invoke it 
 just once per game, checking for ball position on an interval throughout the stint of that round.
+
+
+```  
+let keyCode = e.keyCode;
+    if (keyCode === 37) {
+      leftFlipped = false;
+      leftFlipper.isSleeping = false;
+    } else if (keyCode === 39) {
+      rightFlipped = false;
+      rightFlipper.isSleeping = false;
+    }
+    if (ballCount > 0) {
+      launch();
+      if (listening === false) {
+        ballOut();
+      }
+    } else {
+      newGame();
+    }
+  }
+```
+  The above code snippet ties the monitoring function (ballOut) to the key up listener.
+  
+```
+  if (inPlay) {
+    listening = true;
+    let pinball = engine.world.bodies.filter(findPinball);
+    let ballTracker = setInterval(function () {
+      if (pinball[0].position.y > 650) {
+        Matter.Composite.remove(engine.world, pinball);
+        clearInterval(ballTracker);
+        inPlay = false;
+        ballCount -= 1;
+        let displayBallCount = document.getElementById("ball-count");
+        displayBallCount.classList.add("lose-ball");
+        displayBallCount.innerHTML = ballCount;
+        displayBallCount.addEventListener("transitionend", removeTransition);
+        listening = false;
+      } else if (pinball[0].position.x < 490 && plungeOpen === false) {
+        closePlunge();
+      } 
+```
+And here I fire my setInterval just once, thanks to a boolean variable (listening).
+
+
+
+     
